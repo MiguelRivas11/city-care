@@ -13,6 +13,9 @@ tmp/*
 # Frontend assets compiled code
 public/assets
 
+# Documentation render previews used only for visual QA
+docs/rendered-*/
+
 # Build tools specific
 npm-debug.log
 yarn-error.log

@@ -8,7 +8,18 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export class AuthAccessTokenSchema extends BaseModel {
-  static $columns = ['abilities', 'createdAt', 'expiresAt', 'hash', 'id', 'lastUsedAt', 'name', 'tokenableId', 'type', 'updatedAt'] as const
+  static $columns = [
+    'abilities',
+    'createdAt',
+    'expiresAt',
+    'hash',
+    'id',
+    'lastUsedAt',
+    'name',
+    'tokenableId',
+    'type',
+    'updatedAt',
+  ] as const
   $columns = AuthAccessTokenSchema.$columns
   @column()
   declare abilities: string
@@ -50,7 +61,7 @@ export class CredentialSchema extends BaseModel {
 }
 
 export class DependencySchema extends BaseModel {
-  static $columns = ['createdAt', 'description', 'id', 'name', 'updatedAt'] as const
+  static $columns = ['createdAt', 'description', 'id', 'isActive', 'name', 'updatedAt'] as const
   $columns = DependencySchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -59,13 +70,44 @@ export class DependencySchema extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
   @column()
+  declare isActive: boolean
+  @column()
   declare name: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
 
+export class RoleSchema extends BaseModel {
+  static $columns = ['createdAt', 'description', 'id', 'name', 'slug', 'updatedAt'] as const
+  $columns = RoleSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare slug: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'dependencyId', 'email', 'firstName', 'id', 'isActive', 'jobTitle', 'lastName', 'phoneNumber', 'updatedAt'] as const
+  static $columns = [
+    'createdAt',
+    'dependencyId',
+    'email',
+    'firstName',
+    'id',
+    'isActive',
+    'jobTitle',
+    'lastName',
+    'phoneNumber',
+    'roleId',
+    'updatedAt',
+  ] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -85,6 +127,8 @@ export class UserSchema extends BaseModel {
   declare lastName: string
   @column()
   declare phoneNumber: string | null
+  @column()
+  declare roleId: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }

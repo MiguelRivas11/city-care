@@ -4,6 +4,11 @@ import limiter from '@adonisjs/limiter/services/main'
 import Credential from '#models/credential'
 import User from '#models/user'
 
+const ACCOUNT_INACTIVE_ERROR = {
+  status: 403,
+  code: 'E_ACCOUNT_INACTIVE',
+} as const
+
 export default class AuthService {
   /**
    * Verifica el email y password contra la tabla `credentials`.
@@ -42,7 +47,15 @@ export default class AuthService {
         })
       }
 
-      return User.findOrFail(credential.userId)
+      const authenticatedUser = await User.findOrFail(credential.userId)
+
+      if (!authenticatedUser.isActive) {
+        await User.accessTokens.deleteAll(authenticatedUser)
+
+        throw new Exception('La cuenta está inactiva', ACCOUNT_INACTIVE_ERROR)
+      }
+
+      return authenticatedUser
     })
 
     if (error) {
@@ -53,5 +66,13 @@ export default class AuthService {
     }
 
     return user!
+  }
+
+  /**
+   * Revoca todas las sesiones emitidas para un usuario. Debe utilizarse
+   * cuando una cuenta sea desactivada o cuando se fuerce un cierre global.
+   */
+  static async revokeAllTokens(user: User): Promise<void> {
+    await User.accessTokens.deleteAll(user)
   }
 }

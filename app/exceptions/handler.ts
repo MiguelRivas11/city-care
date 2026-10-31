@@ -13,7 +13,47 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
-    return super.handle(error, ctx)
+    const httpError = this.toHttpError(error)
+    const status = httpError.status || 500
+    const code = httpError.code || `E_HTTP_${status}`
+
+    const knownMessages: Record<string, string> = {
+      E_INVALID_CREDENTIALS: 'Credenciales inválidas',
+      E_ACCOUNT_INACTIVE: 'La cuenta está inactiva',
+      E_UNAUTHORIZED_ACCESS: 'No autorizado',
+      E_ADMIN_REQUIRED: 'No tienes permisos para realizar esta acción',
+      E_PERMISSION_REQUIRED: 'No tienes el permiso requerido para realizar esta acción',
+      E_DEPENDENCY_SCOPE: 'No puedes administrar usuarios de otra dependencia',
+      E_ROLE_ASSIGNMENT_FORBIDDEN: 'No puedes asignar ese rol',
+      E_ROLE_SCOPE: 'No puedes administrar una cuenta con ese rol',
+      E_DEPENDENCY_NOT_FOUND: 'Dependencia no encontrada',
+      E_EMPTY_DEPENDENCY_UPDATE: 'Envía al menos un campo para actualizar la dependencia',
+      E_DEPENDENCY_HAS_ACTIVE_USERS: 'No puedes desactivar una dependencia con usuarios activos',
+      E_DEPENDENCY_INACTIVE: 'La dependencia está inactiva',
+      E_INVALID_DEPENDENCY_MANAGERS:
+        'Los responsables deben ser usuarios activos de la dependencia',
+      E_USER_NOT_FOUND: 'Usuario no encontrado',
+      E_CREDENTIAL_NOT_FOUND: 'El usuario no tiene una credencial asociada',
+      E_EMPTY_UPDATE: 'Envía al menos un campo para actualizar',
+      E_SELF_DEACTIVATION: 'No puedes desactivar tu propia cuenta',
+      E_SELF_ROLE_CHANGE: 'No puedes retirar tu propio rol de administrador',
+      E_VALIDATION_ERROR: 'Los datos enviados no son válidos',
+      E_TOO_MANY_REQUESTS: 'Demasiados intentos. Intenta nuevamente más tarde',
+    }
+
+    const message =
+      knownMessages[code] ||
+      (status >= 500 ? 'Ocurrió un error interno en el servidor' : httpError.message)
+
+    const details = Array.isArray(httpError.messages) ? httpError.messages : undefined
+
+    return ctx.response.status(status).send({
+      error: {
+        code,
+        message,
+        ...(details ? { details } : {}),
+      },
+    })
   }
 
   /**

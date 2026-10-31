@@ -1,0 +1,2167 @@
+openapi: "3.0.0"
+info:
+  title: "City Care API"
+  version: "1.0.0"
+  description: "API de City Care. Incluye autenticación, perfil, cierre de sesión y creación administrativa de usuarios."
+components:
+  responses:
+    Forbidden:
+      description: "Access token is missing or invalid"
+    Accepted:
+      description: "The request was accepted"
+    Created:
+      description: "The resource has been created"
+    NotFound:
+      description: "The resource has been created"
+    NotAcceptable:
+      description: "The resource has been created"
+  securitySchemes:
+    BearerAuth:
+      type: "http"
+      scheme: "bearer"
+      bearerFormat: "Access Token"
+      description: "Token obtenido mediante POST /api/v1/auth/login"
+    BasicAuth:
+      type: "http"
+      scheme: "basic"
+    ApiKeyAuth:
+      type: "apiKey"
+      in: "header"
+      name: "X-API-Key"
+  schemas:
+    Any:
+      description: "Any JSON object not defined as schema"
+    PaginationMeta:
+      type: "object"
+      properties:
+        total:
+          type: "number"
+          nullable: false
+          example: 105
+        perPage:
+          type: "number"
+          nullable: false
+          example: 542
+        currentPage:
+          type: "number"
+          nullable: false
+          example: 806
+        lastPage:
+          type: "number"
+          nullable: false
+          example: 934
+        firstPage:
+          type: "number"
+          nullable: false
+          example: 872
+        firstPageUrl:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        lastPageUrl:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        nextPageUrl:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        previousPageUrl:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "total"
+        - "perPage"
+        - "currentPage"
+        - "lastPage"
+        - "firstPage"
+      description: "PaginationMeta (Interface)"
+    RolePublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 49
+        name:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        slug:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        description:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        permissions:
+          type: "array"
+          items:
+            type: "string"
+            nullable: false
+            example: "Lorem Ipsum"
+      required:
+        - "id"
+        - "name"
+        - "slug"
+        - "permissions"
+      description: "RolePublic (Interface)"
+    RolesListApiResponse:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/RolePublic"
+      required:
+        - "data"
+      description: "RolesListApiResponse (Interface)"
+    DependencyPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 504
+        name:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        description:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        isActive:
+          type: "boolean"
+          nullable: false
+          example: true
+        managers:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/DependencyManagerPublic"
+      required:
+        - "id"
+        - "name"
+        - "isActive"
+        - "managers"
+      description: "DependencyPublic (Interface)"
+    DependencyManagerPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 366
+        firstName:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        lastName:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        email:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "id"
+        - "firstName"
+        - "lastName"
+        - "email"
+      description: "DependencyManagerPublic (Interface)"
+    CreateDependencyRequest:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        description:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        isActive:
+          type: "boolean"
+          nullable: false
+          example: true
+      required:
+        - "name"
+      description: "CreateDependencyRequest (Interface)"
+    UpdateDependencyRequest:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        description:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      description: "UpdateDependencyRequest (Interface)"
+    UpdateDependencyStatusRequest:
+      type: "object"
+      properties:
+        isActive:
+          type: "boolean"
+          nullable: false
+          example: true
+      required:
+        - "isActive"
+      description: "UpdateDependencyStatusRequest (Interface)"
+    UpdateDependencyManagersRequest:
+      type: "object"
+      properties:
+        userIds:
+          type: "array"
+          items:
+            type: "number"
+            nullable: false
+            example: 960
+      required:
+        - "userIds"
+      description: "UpdateDependencyManagersRequest (Interface)"
+    UserPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 33
+        dependencyId:
+          type: "number"
+          nullable: false
+          example: 759
+        roleId:
+          type: "number"
+          nullable: false
+          example: 263
+        firstName:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        lastName:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        email:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        phoneNumber:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        jobTitle:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        isActive:
+          type: "boolean"
+          nullable: false
+          example: true
+        createdAt:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        updatedAt:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        initials:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        role:
+          nullable: false
+          $ref: "#/components/schemas/RolePublic"
+        dependency:
+          nullable: false
+          $ref: "#/components/schemas/DependencyPublic"
+      required:
+        - "id"
+        - "dependencyId"
+        - "roleId"
+        - "firstName"
+        - "lastName"
+        - "email"
+        - "isActive"
+        - "createdAt"
+        - "updatedAt"
+        - "initials"
+        - "role"
+        - "dependency"
+      description: "UserPublic (Interface)"
+    LoginRequest:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        password:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "email"
+        - "password"
+      description: "LoginRequest (Interface)"
+    CreateUserRequest:
+      type: "object"
+      properties:
+        dependencyId:
+          type: "number"
+          nullable: false
+          example: 545
+        roleId:
+          type: "number"
+          nullable: false
+          example: 977
+        firstName:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        lastName:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        email:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        phoneNumber:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        jobTitle:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        isActive:
+          type: "boolean"
+          nullable: false
+          example: true
+        password:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        passwordConfirmation:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "dependencyId"
+        - "roleId"
+        - "firstName"
+        - "lastName"
+        - "email"
+        - "password"
+        - "passwordConfirmation"
+      description: "CreateUserRequest (Interface)"
+    UpdateUserRequest:
+      type: "object"
+      properties:
+        dependencyId:
+          type: "number"
+          nullable: false
+          example: 980
+        roleId:
+          type: "number"
+          nullable: false
+          example: 392
+        firstName:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        lastName:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        email:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        phoneNumber:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        jobTitle:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      description: "UpdateUserRequest (Interface)"
+    UpdateUserStatusRequest:
+      type: "object"
+      properties:
+        isActive:
+          type: "boolean"
+          nullable: false
+          example: true
+      required:
+        - "isActive"
+      description: "UpdateUserStatusRequest (Interface)"
+    ResetUserPasswordRequest:
+      type: "object"
+      properties:
+        password:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        passwordConfirmation:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "password"
+        - "passwordConfirmation"
+      description: "ResetUserPasswordRequest (Interface)"
+    DependenciesListApiResponse:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/DependencyPublic"
+        meta:
+          nullable: false
+          $ref: "#/components/schemas/PaginationMeta"
+      required:
+        - "data"
+        - "meta"
+      description: "DependenciesListApiResponse (Interface)"
+    DependencyDetailApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/DependencyPublic"
+      required:
+        - "data"
+      description: "DependencyDetailApiResponse (Interface)"
+    CreateDependencyApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/DependencyPublic"
+      required:
+        - "data"
+      description: "CreateDependencyApiResponse (Interface)"
+    UpdateDependencyApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/DependencyPublic"
+      required:
+        - "data"
+      description: "UpdateDependencyApiResponse (Interface)"
+    UpdateDependencyStatusApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/DependencyPublic"
+      required:
+        - "data"
+      description: "UpdateDependencyStatusApiResponse (Interface)"
+    UpdateDependencyManagersApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/DependencyPublic"
+      required:
+        - "data"
+      description: "UpdateDependencyManagersApiResponse (Interface)"
+    LoginResponse:
+      type: "object"
+      properties:
+        user:
+          nullable: false
+          $ref: "#/components/schemas/UserPublic"
+        token:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "user"
+        - "token"
+      description: "LoginResponse (Interface)"
+    LoginApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/LoginResponse"
+      required:
+        - "data"
+      description: "LoginApiResponse (Interface)"
+    ProfileApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/UserPublic"
+      required:
+        - "data"
+      description: "ProfileApiResponse (Interface)"
+    CreateUserApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/UserPublic"
+      required:
+        - "data"
+      description: "CreateUserApiResponse (Interface)"
+    UsersListApiResponse:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/UserPublic"
+        meta:
+          nullable: false
+          $ref: "#/components/schemas/PaginationMeta"
+      required:
+        - "data"
+        - "meta"
+      description: "UsersListApiResponse (Interface)"
+    UserDetailApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/UserPublic"
+      required:
+        - "data"
+      description: "UserDetailApiResponse (Interface)"
+    UpdateUserApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/UserPublic"
+      required:
+        - "data"
+      description: "UpdateUserApiResponse (Interface)"
+    UpdateUserStatusApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/UserPublic"
+      required:
+        - "data"
+      description: "UpdateUserStatusApiResponse (Interface)"
+    ResetUserPasswordApiResponse:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "message"
+      description: "ResetUserPasswordApiResponse (Interface)"
+    LogoutApiResponse:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "message"
+      description: "LogoutApiResponse (Interface)"
+    ApiErrorDetail:
+      type: "object"
+      properties:
+        field:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        message:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        rule:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "message"
+      description: "ApiErrorDetail (Interface)"
+    ApiErrorBody:
+      type: "object"
+      properties:
+        code:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        message:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        details:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/ApiErrorDetail"
+      required:
+        - "code"
+        - "message"
+      description: "ApiErrorBody (Interface)"
+    ApiErrorResponse:
+      type: "object"
+      properties:
+        error:
+          nullable: false
+          $ref: "#/components/schemas/ApiErrorBody"
+      required:
+        - "error"
+      description: "ApiErrorResponse (Interface)"
+    Credential:
+      type: "object"
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+          example: null
+      description: "Credential (Model)"
+    Dependency:
+      type: "object"
+      properties:
+        users:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/User"
+            example: null
+      description: "Dependency (Model)"
+    Role:
+      type: "object"
+      properties:
+        users:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/User"
+            example: null
+      description: "Role (Model)"
+    User:
+      type: "object"
+      properties:
+        dependency:
+          $ref: "#/components/schemas/Dependency"
+          example: null
+        role:
+          $ref: "#/components/schemas/Role"
+          example: null
+        credential:
+          $ref: "#/components/schemas/Credential"
+          example: null
+      description: "User (Model)"
+    createDependencyValidator:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 2
+          maxLength: 150
+        description:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 1000
+        isActive:
+          type: "boolean"
+          example: true
+      example:
+        name: "Lorem Ipsum"
+        description: "Lorem Ipsum"
+        isActive: true
+      description: "createDependencyValidator (Validator)"
+      required:
+        - "name"
+    listDependenciesValidator:
+      type: "object"
+      properties:
+        page:
+          type: "number"
+          example: 969
+        perPage:
+          type: "number"
+          example: 1
+          minimum: 1
+          maximum: 100
+        search:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 150
+        isActive:
+          type: "number"
+          example: 0
+      example:
+        page: 969
+        perPage: 1
+        search: "Lorem Ipsum"
+        isActive: 0
+      description: "listDependenciesValidator (Validator)"
+    updateDependencyManagersValidator:
+      type: "object"
+      properties:
+        userIds:
+          type: "array"
+          items:
+            type: "number"
+            example: 1
+            minimum: 1
+      example:
+        userIds:
+          - 1
+      description: "updateDependencyManagersValidator (Validator)"
+      required:
+        - "userIds"
+    updateDependencyStatusValidator:
+      type: "object"
+      properties:
+        isActive:
+          type: "boolean"
+          example: true
+      example:
+        isActive: true
+      description: "updateDependencyStatusValidator (Validator)"
+      required:
+        - "isActive"
+    updateDependencyValidator:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 2
+          maxLength: 150
+        description:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 1000
+      example:
+        name: "Lorem Ipsum"
+        description: "Lorem Ipsum"
+      description: "updateDependencyValidator (Validator)"
+    createUserValidator:
+      type: "object"
+      properties:
+        dependencyId:
+          type: "number"
+          example: 790
+        roleId:
+          type: "number"
+          example: 982
+        firstName:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 1
+          maxLength: 100
+        lastName:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 1
+          maxLength: 100
+        email:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 150
+        phoneNumber:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 20
+        jobTitle:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 100
+        isActive:
+          type: "boolean"
+          example: true
+        password:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 8
+          maxLength: 32
+        passwordConfirmation:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 8
+          maxLength: 32
+      example:
+        dependencyId: 790
+        roleId: 982
+        firstName: "Lorem Ipsum"
+        lastName: "Lorem Ipsum"
+        email: "Lorem Ipsum"
+        phoneNumber: "Lorem Ipsum"
+        jobTitle: "Lorem Ipsum"
+        isActive: true
+        password: "Lorem Ipsum"
+        passwordConfirmation: "Lorem Ipsum"
+      description: "createUserValidator (Validator)"
+      required:
+        - "dependencyId"
+        - "roleId"
+        - "firstName"
+        - "lastName"
+        - "email"
+        - "password"
+        - "passwordConfirmation"
+    listUsersValidator:
+      type: "object"
+      properties:
+        page:
+          type: "number"
+          example: 29
+        perPage:
+          type: "number"
+          example: 1
+          minimum: 1
+          maximum: 100
+        search:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 150
+        roleId:
+          type: "number"
+          example: 822
+        dependencyId:
+          type: "number"
+          example: 216
+        isActive:
+          type: "boolean"
+          example: true
+      example:
+        page: 29
+        perPage: 1
+        search: "Lorem Ipsum"
+        roleId: 822
+        dependencyId: 216
+        isActive: true
+      description: "listUsersValidator (Validator)"
+    loginValidator:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 150
+        password:
+          type: "string"
+          example: "Lorem Ipsum"
+      example:
+        email: "Lorem Ipsum"
+        password: "Lorem Ipsum"
+      description: "loginValidator (Validator)"
+      required:
+        - "email"
+        - "password"
+    resetUserPasswordValidator:
+      type: "object"
+      properties:
+        password:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 8
+          maxLength: 32
+        passwordConfirmation:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 8
+          maxLength: 32
+      example:
+        password: "Lorem Ipsum"
+        passwordConfirmation: "Lorem Ipsum"
+      description: "resetUserPasswordValidator (Validator)"
+      required:
+        - "password"
+        - "passwordConfirmation"
+    updateUserStatusValidator:
+      type: "object"
+      properties:
+        isActive:
+          type: "boolean"
+          example: true
+      example:
+        isActive: true
+      description: "updateUserStatusValidator (Validator)"
+      required:
+        - "isActive"
+    updateUserValidator:
+      type: "object"
+      properties:
+        dependencyId:
+          type: "number"
+          example: 441
+        roleId:
+          type: "number"
+          example: 393
+        firstName:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 1
+          maxLength: 100
+        lastName:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 1
+          maxLength: 100
+        email:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 150
+        phoneNumber:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 20
+        jobTitle:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 100
+      example:
+        dependencyId: 441
+        roleId: 393
+        firstName: "Lorem Ipsum"
+        lastName: "Lorem Ipsum"
+        email: "Lorem Ipsum"
+        phoneNumber: "Lorem Ipsum"
+        jobTitle: "Lorem Ipsum"
+      description: "updateUserValidator (Validator)"
+paths:
+  /api/v1/auth/login:
+    post:
+      summary: "Iniciar sesion (store)"
+      description: "Valida email y password contra la tabla credentials y devuelve un token de acceso. Limitado a 5 intentos por minuto.\n\n _app/controllers/access_tokens_controller.ts_ - **store**"
+      operationId: "login"
+      parameters: []
+      tags:
+        - "AUTH"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginApiResponse"
+              example:
+                data:
+                  token: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **400** (Bad Request) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+        429:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **429** (Too Many Requests) as **application/json**"
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+            example:
+              email: "usuario@citycare.com"
+              password: "TuPassword123!"
+        required: true
+  /api/v1/account/profile:
+    get:
+      summary: "Obtener perfil del usuario autenticado (show)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/profile_controller.ts_ - **show**"
+      operationId: "getProfile"
+      parameters: []
+      tags:
+        - "ACCOUNT"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProfileApiResponse"
+              example:
+                data:
+                  id: 33
+                  dependencyId: 759
+                  roleId: 263
+                  firstName: "Lorem Ipsum"
+                  lastName: "Lorem Ipsum"
+                  email: "Lorem Ipsum"
+                  phoneNumber: "Lorem Ipsum"
+                  jobTitle: "Lorem Ipsum"
+                  isActive: true
+                  createdAt: "Lorem Ipsum"
+                  updatedAt: "Lorem Ipsum"
+                  initials: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/account/logout:
+    post:
+      summary: "Cerrar sesión (destroy)"
+      description: "Elimina el token de acceso actual del usuario autenticado.\n\n _app/controllers/access_tokens_controller.ts_ - **destroy**"
+      operationId: "logout"
+      parameters: []
+      tags:
+        - "ACCOUNT"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogoutApiResponse"
+              example:
+                message: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/admin/dependencies:
+    get:
+      summary: "Listar dependencias (index)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/dependencies_controller.ts_ - **index**"
+      operationId: "listDependencies"
+      parameters:
+        - in: "query"
+          name: "page"
+          description: "Número de página"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "perPage"
+          description: "Registros por página, máximo 100"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "search"
+          description: "Nombre o descripción"
+          schema:
+            example: ""
+            type: "string"
+          required: false
+        - in: "query"
+          name: "isActive"
+          description: "Estado activo o inactivo"
+          schema:
+            example: ""
+            type: "boolean"
+          required: false
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DependenciesListApiResponse"
+              example:
+                data:
+                  - id: 504
+                    name: "Lorem Ipsum"
+                    description: "Lorem Ipsum"
+                    isActive: true
+                meta:
+                  total: 105
+                  perPage: 542
+                  currentPage: 806
+                  lastPage: 934
+                  firstPage: 872
+                  firstPageUrl: "Lorem Ipsum"
+                  lastPageUrl: "Lorem Ipsum"
+                  nextPageUrl: "Lorem Ipsum"
+                  previousPageUrl: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+    post:
+      summary: "Crear una dependencia (store)"
+      description: "Returns **201** (Created) as **application/json**\n\n _app/controllers/dependencies_controller.ts_ - **store**"
+      operationId: "createDependency"
+      parameters: []
+      tags:
+        - "ADMIN"
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateDependencyApiResponse"
+              example:
+                data:
+                  id: 504
+                  name: "Lorem Ipsum"
+                  description: "Lorem Ipsum"
+                  isActive: true
+          description: "Returns **201** (Created) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDependencyRequest"
+            example:
+              name: "Lorem Ipsum"
+              description: "Lorem Ipsum"
+              isActive: true
+        required: true
+  /api/v1/admin/dependencies/{id}:
+    get:
+      summary: "Consultar una dependencia (show)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/dependencies_controller.ts_ - **show**"
+      operationId: "getDependency"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador de la dependencia"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DependencyDetailApiResponse"
+              example:
+                data:
+                  id: 504
+                  name: "Lorem Ipsum"
+                  description: "Lorem Ipsum"
+                  isActive: true
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+    patch:
+      summary: "Editar una dependencia (update)"
+      description: "\n\n _app/controllers/dependencies_controller.ts_ - **update**"
+      operationId: "updateDependency"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador de la dependencia"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateDependencyApiResponse"
+              example:
+                data:
+                  id: 504
+                  name: "Lorem Ipsum"
+                  description: "Lorem Ipsum"
+                  isActive: true
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDependencyRequest"
+            example:
+              name: "Lorem Ipsum"
+              description: "Lorem Ipsum"
+        required: true
+  /api/v1/admin/dependencies/{id}/status:
+    patch:
+      summary: "Activar o desactivar una dependencia (updateStatus)"
+      description: "Aplica baja lógica. Una dependencia con usuarios activos no puede desactivarse.\n\n _app/controllers/dependencies_controller.ts_ - **updateStatus**"
+      operationId: "updateDependencyStatus"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador de la dependencia"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateDependencyStatusApiResponse"
+              example:
+                data:
+                  id: 504
+                  name: "Lorem Ipsum"
+                  description: "Lorem Ipsum"
+                  isActive: true
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+        409:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **409** (Conflict) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDependencyStatusRequest"
+            example:
+              isActive: true
+        required: true
+  /api/v1/admin/dependencies/{id}/managers:
+    patch:
+      summary: "Asignar responsables de una dependencia (updateManagers)"
+      description: "Reemplaza los responsables actuales. Los seleccionados deben ser usuarios activos de la dependencia con rol user o dependency_admin.\n\n _app/controllers/dependencies_controller.ts_ - **updateManagers**"
+      operationId: "updateDependencyManagers"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador de la dependencia"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateDependencyManagersApiResponse"
+              example:
+                data:
+                  id: 504
+                  name: "Lorem Ipsum"
+                  description: "Lorem Ipsum"
+                  isActive: true
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+        409:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **409** (Conflict) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDependencyManagersRequest"
+            example:
+              userIds:
+                - 960
+        required: true
+  /api/v1/admin/roles:
+    get:
+      summary: "Listar roles asignables (index)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/roles_controller.ts_ - **index**"
+      operationId: "listRoles"
+      parameters: []
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RolesListApiResponse"
+              example:
+                data:
+                  - id: 49
+                    name: "Lorem Ipsum"
+                    slug: "Lorem Ipsum"
+                    description: "Lorem Ipsum"
+                    permissions:
+                      - "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/admin/users:
+    get:
+      summary: "Listar y buscar usuarios (index)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/admin_users_controller.ts_ - **index**"
+      operationId: "listUsers"
+      parameters:
+        - in: "query"
+          name: "page"
+          description: "Número de página"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "perPage"
+          description: "Registros por página, máximo 100"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "search"
+          description: "Nombre, apellido o correo"
+          schema:
+            example: ""
+            type: "string"
+          required: false
+        - in: "query"
+          name: "roleId"
+          description: "Identificador del rol"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "dependencyId"
+          description: "Identificador de la dependencia"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "isActive"
+          description: "Estado activo o inactivo"
+          schema:
+            example: ""
+            type: "boolean"
+          required: false
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersListApiResponse"
+              example:
+                data:
+                  - id: 33
+                    dependencyId: 759
+                    roleId: 263
+                    firstName: "Lorem Ipsum"
+                    lastName: "Lorem Ipsum"
+                    email: "Lorem Ipsum"
+                    phoneNumber: "Lorem Ipsum"
+                    jobTitle: "Lorem Ipsum"
+                    isActive: true
+                    createdAt: "Lorem Ipsum"
+                    updatedAt: "Lorem Ipsum"
+                    initials: "Lorem Ipsum"
+                meta:
+                  total: 105
+                  perPage: 542
+                  currentPage: 806
+                  lastPage: 934
+                  firstPage: 872
+                  firstPageUrl: "Lorem Ipsum"
+                  lastPageUrl: "Lorem Ipsum"
+                  nextPageUrl: "Lorem Ipsum"
+                  previousPageUrl: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+    post:
+      summary: "Crear una cuenta de usuario (store)"
+      description: "Returns **201** (Created) as **application/json**\n\n _app/controllers/new_account_controller.ts_ - **store**"
+      operationId: "createUser"
+      parameters: []
+      tags:
+        - "ADMIN"
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateUserApiResponse"
+              example:
+                data:
+                  id: 33
+                  dependencyId: 759
+                  roleId: 263
+                  firstName: "Lorem Ipsum"
+                  lastName: "Lorem Ipsum"
+                  email: "Lorem Ipsum"
+                  phoneNumber: "Lorem Ipsum"
+                  jobTitle: "Lorem Ipsum"
+                  isActive: true
+                  createdAt: "Lorem Ipsum"
+                  updatedAt: "Lorem Ipsum"
+                  initials: "Lorem Ipsum"
+          description: "Returns **201** (Created) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+            example:
+              dependencyId: 545
+              roleId: 977
+              firstName: "Lorem Ipsum"
+              lastName: "Lorem Ipsum"
+              email: "Lorem Ipsum"
+              phoneNumber: "Lorem Ipsum"
+              jobTitle: "Lorem Ipsum"
+              isActive: true
+              passwordConfirmation: "Lorem Ipsum"
+        required: true
+  /api/v1/admin/users/{id}:
+    get:
+      summary: "Consultar el detalle de un usuario (show)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/admin_users_controller.ts_ - **show**"
+      operationId: "getUser"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador del usuario"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDetailApiResponse"
+              example:
+                data:
+                  id: 33
+                  dependencyId: 759
+                  roleId: 263
+                  firstName: "Lorem Ipsum"
+                  lastName: "Lorem Ipsum"
+                  email: "Lorem Ipsum"
+                  phoneNumber: "Lorem Ipsum"
+                  jobTitle: "Lorem Ipsum"
+                  isActive: true
+                  createdAt: "Lorem Ipsum"
+                  updatedAt: "Lorem Ipsum"
+                  initials: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+    patch:
+      summary: "Editar un usuario (update)"
+      description: "Actualiza datos personales, correo, dependencia o rol. Si cambia el correo, también actualiza credentials dentro de la misma transacción.\n\n _app/controllers/admin_users_controller.ts_ - **update**"
+      operationId: "updateUser"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador del usuario"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateUserApiResponse"
+              example:
+                data:
+                  id: 33
+                  dependencyId: 759
+                  roleId: 263
+                  firstName: "Lorem Ipsum"
+                  lastName: "Lorem Ipsum"
+                  email: "Lorem Ipsum"
+                  phoneNumber: "Lorem Ipsum"
+                  jobTitle: "Lorem Ipsum"
+                  isActive: true
+                  createdAt: "Lorem Ipsum"
+                  updatedAt: "Lorem Ipsum"
+                  initials: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+        409:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **409** (Conflict) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+            example:
+              dependencyId: 980
+              roleId: 392
+              firstName: "Lorem Ipsum"
+              lastName: "Lorem Ipsum"
+              email: "Lorem Ipsum"
+              phoneNumber: "Lorem Ipsum"
+              jobTitle: "Lorem Ipsum"
+        required: true
+  /api/v1/admin/users/{id}/status:
+    patch:
+      summary: "Activar o desactivar un usuario (updateStatus)"
+      description: "Aplica baja lógica con is_active. Al desactivar elimina todos los tokens del usuario en la misma transacción.\n\n _app/controllers/admin_users_controller.ts_ - **updateStatus**"
+      operationId: "updateUserStatus"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador del usuario"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateUserStatusApiResponse"
+              example:
+                data:
+                  id: 33
+                  dependencyId: 759
+                  roleId: 263
+                  firstName: "Lorem Ipsum"
+                  lastName: "Lorem Ipsum"
+                  email: "Lorem Ipsum"
+                  phoneNumber: "Lorem Ipsum"
+                  jobTitle: "Lorem Ipsum"
+                  isActive: true
+                  createdAt: "Lorem Ipsum"
+                  updatedAt: "Lorem Ipsum"
+                  initials: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserStatusRequest"
+            example:
+              isActive: true
+        required: true
+  /api/v1/admin/users/{id}/password:
+    patch:
+      summary: "Restablecer la contraseña de un usuario (resetPassword)"
+      description: "Reemplaza password_hash y elimina todas las sesiones del usuario. No devuelve la contraseña ni inicia sesión por la cuenta modificada.\n\n _app/controllers/admin_users_controller.ts_ - **resetPassword**"
+      operationId: "resetUserPassword"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador del usuario"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResetUserPasswordApiResponse"
+              example:
+                message: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+        409:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **409** (Conflict) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetUserPasswordRequest"
+            example:
+              passwordConfirmation: "Lorem Ipsum"
+        required: true
+tags:
+  - name: "AUTH"
+    description: "Everything related to AUTH"
+  - name: "ACCOUNT"
+    description: "Everything related to ACCOUNT"
+  - name: "ADMIN"
+    description: "Everything related to ADMIN"
+servers:
+  - url: "http://localhost:52664"

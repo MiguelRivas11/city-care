@@ -7,15 +7,21 @@ import { belongsTo, hasOne } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasOne } from '@adonisjs/lucid/types/relations'
 import Dependency from '#models/dependency'
 import Credential from '#models/credential'
+import Role from '#models/role'
+import env from '#start/env'
 
 export default class User extends compose(UserSchema, withAuthFinder(hash)) {
-  static accessTokens = DbAccessTokensProvider.forModel(User)
+  static accessTokens = DbAccessTokensProvider.forModel(User, {
+    expiresIn: env.get('ACCESS_TOKEN_EXPIRES_IN', '7d'),
+  })
 
   // @no-swagger
   declare currentAccessToken?: AccessToken
 
   @belongsTo(() => Dependency)
   declare dependency: BelongsTo<typeof Dependency>
+  @belongsTo(() => Role)
+  declare role: BelongsTo<typeof Role>
 
   @hasOne(() => Credential)
   declare credential: HasOne<typeof Credential>

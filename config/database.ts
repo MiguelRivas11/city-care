@@ -6,9 +6,25 @@ const dbConfig = defineConfig({
   /**
    * Default connection used for all queries.
    */
-  connection: 'mysql',
+  connection: app.inTest ? 'sqlite' : 'mysql',
 
   connections: {
+    /**
+     * Base de datos aislada y en memoria para pruebas automatizadas.
+     * Nunca modifica la base MySQL utilizada por desarrollo.
+     */
+    sqlite: {
+      client: 'better-sqlite3',
+      connection: {
+        filename: ':memory:',
+      },
+      useNullAsDefault: true,
+      migrations: {
+        naturalSort: true,
+        paths: ['database/migrations'],
+      },
+    },
+
     /**
      * MySQL / MariaDB connection.
      */
