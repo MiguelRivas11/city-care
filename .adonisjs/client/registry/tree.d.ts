@@ -15,6 +15,9 @@ export interface ApiDefinition {
       destroy: typeof routes['profile.access_tokens.destroy']
     }
   }
+  reports: {
+    store: typeof routes['reports.store']
+  }
   admin: {
     dependencies: {
       index: typeof routes['admin.dependencies.index']

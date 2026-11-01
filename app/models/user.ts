@@ -3,12 +3,13 @@ import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { type AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
-import { belongsTo, hasOne } from '@adonisjs/lucid/orm'
-import type { BelongsTo, HasOne } from '@adonisjs/lucid/types/relations'
+import { belongsTo, hasMany, hasOne } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany, HasOne } from '@adonisjs/lucid/types/relations'
 import Dependency from '#models/dependency'
 import Credential from '#models/credential'
 import Role from '#models/role'
 import env from '#start/env'
+import Report from '#models/report'
 
 export default class User extends compose(UserSchema, withAuthFinder(hash)) {
   static accessTokens = DbAccessTokensProvider.forModel(User, {
@@ -25,6 +26,9 @@ export default class User extends compose(UserSchema, withAuthFinder(hash)) {
 
   @hasOne(() => Credential)
   declare credential: HasOne<typeof Credential>
+
+  @hasMany(() => Report)
+  declare reports: HasMany<typeof Report>
 
   get initials() {
     const first = this.firstName ?? ''

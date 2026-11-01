@@ -39,6 +39,10 @@ export default class HttpExceptionHandler extends ExceptionHandler {
       E_SELF_ROLE_CHANGE: 'No puedes retirar tu propio rol de administrador',
       E_VALIDATION_ERROR: 'Los datos enviados no son válidos',
       E_TOO_MANY_REQUESTS: 'Demasiados intentos. Intenta nuevamente más tarde',
+      E_REPORT_CATEGORY_INVALID: 'La categoría seleccionada no es válida',
+      E_REPORT_DESCRIPTION_REQUIRED: 'La descripción es obligatoria para la categoría Otro',
+      E_REPORT_LOCATION_INVALID: 'La ubicación proporcionada no es válida',
+      E_REPORT_LOCATION_SOURCE_INVALID: 'El origen de la ubicación debe ser gps o manual',
     }
 
     const message =

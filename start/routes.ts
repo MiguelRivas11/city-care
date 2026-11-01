@@ -161,6 +161,11 @@ router
       .use(middleware.auth())
 
     router
+      .post('reports', [controllers.Reports, 'store'])
+      .as('reports.store')
+      .use(middleware.auth())
+
+    router
       .group(() => {
         router
           .get('dependencies', [controllers.Dependencies, 'index'])

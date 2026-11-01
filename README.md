@@ -23,15 +23,15 @@ El backend se publica localmente en `http://localhost:3333` salvo que `HOST` o `
 
 ## Comandos principales
 
-| Comando | Función |
-| --- | --- |
-| `npm run dev` | Inicia el servidor de desarrollo. |
-| `npm run build` | Genera la compilación de producción. |
-| `npm run lint` | Ejecuta ESLint. |
-| `npm run typecheck` | Valida TypeScript sin emitir archivos. |
-| `npm test` | Ejecuta las pruebas funcionales. |
-| `npm run openapi:generate` | Regenera el SDK Orval desde OpenAPI. |
-| `node ace list:routes` | Muestra las rutas registradas. |
+| Comando                     | Función                                |
+| --------------------------- | -------------------------------------- |
+| `npm run dev`               | Inicia el servidor de desarrollo.      |
+| `npm run build`             | Genera la compilación de producción.   |
+| `npm run lint`              | Ejecuta ESLint.                        |
+| `npm run typecheck`         | Valida TypeScript sin emitir archivos. |
+| `npm test`                  | Ejecuta las pruebas funcionales.       |
+| `npm run openapi:generate`  | Regenera el SDK Orval desde OpenAPI.   |
+| `node ace list:routes`      | Muestra las rutas registradas.         |
 | `node ace migration:status` | Consulta el estado de las migraciones. |
 
 ## API y documentación
@@ -59,6 +59,23 @@ Las rutas de administración requieren un token Bearer y un permiso compatible c
 La suite funcional usa SQLite de forma aislada para no alterar MySQL. El servidor de pruebas escucha en `127.0.0.1:3333` y las tablas se migran, limpian y revierten durante la ejecución.
 
 La versión 1.0 se cerró con 46 pruebas aprobadas, lint, typecheck, build, 16 endpoints de API y 7 migraciones aplicadas en MySQL.
+
+## Desarrollo actual: etapa 3.1
+
+La creación de reportes ciudadanos se encuentra implementada en `POST /api/v1/reports`.
+La ruta requiere token Bearer y recibe `multipart/form-data` con categoría, descripción,
+dirección, coordenadas, precisión, origen de ubicación y fotografía.
+
+- Las categorías se normalizan en `report_categories`.
+- El usuario se obtiene exclusivamente desde el token.
+- Las coordenadas `0,0` y los valores fuera de rango se rechazan.
+- La categoría `Otro` exige una descripción.
+- El servidor genera un folio `CC-AÑO-000000` y el estado inicial `Pendiente`.
+- La fotografía queda en preparación privada local y su metadata se registra en
+  `report_evidences`.
+- La transferencia a MinIO y la generación de `fotoUrl` corresponden al apartado 3.2.
+
+El proyecto cuenta ahora con 10 migraciones aplicadas, 17 endpoints y 52 pruebas funcionales.
 
 ## Seguridad
 

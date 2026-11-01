@@ -24,6 +24,12 @@ const routes = {
     tokens: [{"old":"/api/v1/account/logout","type":0,"val":"api","end":""},{"old":"/api/v1/account/logout","type":0,"val":"v1","end":""},{"old":"/api/v1/account/logout","type":0,"val":"account","end":""},{"old":"/api/v1/account/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['profile.access_tokens.destroy']['types'],
   },
+  'reports.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/reports',
+    tokens: [{"old":"/api/v1/reports","type":0,"val":"api","end":""},{"old":"/api/v1/reports","type":0,"val":"v1","end":""},{"old":"/api/v1/reports","type":0,"val":"reports","end":""}],
+    types: placeholder as Registry['reports.store']['types'],
+  },
   'admin.dependencies.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/admin/dependencies',

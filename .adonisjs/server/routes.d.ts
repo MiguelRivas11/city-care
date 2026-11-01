@@ -7,6 +7,7 @@ export type ScannedRoutes = {
     'auth.access_tokens.store': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
     'profile.access_tokens.destroy': { paramsTuple?: []; params?: {} }
+    'reports.store': { paramsTuple?: []; params?: {} }
     'admin.dependencies.index': { paramsTuple?: []; params?: {} }
     'admin.dependencies.store': { paramsTuple?: []; params?: {} }
     'admin.dependencies.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -40,6 +41,7 @@ export type ScannedRoutes = {
   POST: {
     'auth.access_tokens.store': { paramsTuple?: []; params?: {} }
     'profile.access_tokens.destroy': { paramsTuple?: []; params?: {} }
+    'reports.store': { paramsTuple?: []; params?: {} }
     'admin.dependencies.store': { paramsTuple?: []; params?: {} }
     'admin.new_account.store': { paramsTuple?: []; params?: {} }
   }

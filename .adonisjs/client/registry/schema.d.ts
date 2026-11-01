@@ -43,6 +43,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['destroy']>>>
     }
   }
+  'reports.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/reports'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/report').createReportValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/report').createReportValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/reports_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/reports_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.dependencies.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/admin/dependencies'

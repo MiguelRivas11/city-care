@@ -77,6 +77,129 @@ export class DependencySchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
+export class ReportCategorySchema extends BaseModel {
+  static $columns = [
+    'code',
+    'createdAt',
+    'dependencyId',
+    'description',
+    'id',
+    'isActive',
+    'name',
+    'requiresDescription',
+    'updatedAt',
+  ] as const
+  $columns = ReportCategorySchema.$columns
+  @column()
+  declare code: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare dependencyId: number | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare isActive: boolean
+  @column()
+  declare name: string
+  @column()
+  declare requiresDescription: boolean
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class ReportEvidenceSchema extends BaseModel {
+  static $columns = [
+    'bucket',
+    'createdAt',
+    'id',
+    'kind',
+    'mimeType',
+    'objectKey',
+    'originalName',
+    'reportId',
+    'sizeBytes',
+    'storageProvider',
+    'storageStatus',
+    'updatedAt',
+  ] as const
+  $columns = ReportEvidenceSchema.$columns
+  @column()
+  declare bucket: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare kind: string
+  @column()
+  declare mimeType: string
+  @column()
+  declare objectKey: string
+  @column()
+  declare originalName: string
+  @column()
+  declare reportId: number
+  @column()
+  declare sizeBytes: bigint | number
+  @column()
+  declare storageProvider: string
+  @column()
+  declare storageStatus: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class ReportSchema extends BaseModel {
+  static $columns = [
+    'address',
+    'categoryId',
+    'createdAt',
+    'dependencyId',
+    'description',
+    'folio',
+    'id',
+    'latitude',
+    'locationAccuracy',
+    'locationSource',
+    'longitude',
+    'status',
+    'updatedAt',
+    'userId',
+  ] as const
+  $columns = ReportSchema.$columns
+  @column()
+  declare address: string | null
+  @column()
+  declare categoryId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare dependencyId: number | null
+  @column()
+  declare description: string | null
+  @column()
+  declare folio: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare latitude: string
+  @column()
+  declare locationAccuracy: string | null
+  @column()
+  declare locationSource: string
+  @column()
+  declare longitude: string
+  @column()
+  declare status: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+  @column()
+  declare userId: number
+}
+
 export class RoleSchema extends BaseModel {
   static $columns = ['createdAt', 'description', 'id', 'name', 'slug', 'updatedAt'] as const
   $columns = RoleSchema.$columns

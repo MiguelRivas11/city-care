@@ -2,6 +2,19 @@
 
 Los cambios importantes de City Care se documentan en este archivo.
 
+## En desarrollo - Etapa 3.1
+
+### Agregado
+
+- Catálogo normalizado con las nueve categorías iniciales de incidencias.
+- Tablas de reportes y evidencias con integridad referencial e índices de consulta.
+- Endpoint autenticado `POST /api/v1/reports` para recibir reportes multipart.
+- Validación de categoría, descripción condicional, coordenadas, origen y fotografía.
+- Folio público generado por el servidor y estado inicial `Pendiente`.
+- Preparación privada local de evidencias hasta su transferencia a MinIO en el 3.2.
+- Contrato OpenAPI y cliente Orval con soporte para `FormData` y archivos.
+- Seis pruebas funcionales nuevas; suite completa de 52 pruebas.
+
 ## 1.0.0 - 2026-10-31
 
 ### Agregado

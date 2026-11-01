@@ -37,23 +37,23 @@ components:
         total:
           type: "number"
           nullable: false
-          example: 105
+          example: 395
         perPage:
           type: "number"
           nullable: false
-          example: 542
+          example: 372
         currentPage:
           type: "number"
           nullable: false
-          example: 806
+          example: 858
         lastPage:
           type: "number"
           nullable: false
-          example: 934
+          example: 133
         firstPage:
           type: "number"
           nullable: false
-          example: 872
+          example: 175
         firstPageUrl:
           type: "string"
           nullable: false
@@ -83,7 +83,7 @@ components:
         id:
           type: "number"
           nullable: false
-          example: 49
+          example: 861
         name:
           type: "string"
           nullable: false
@@ -125,7 +125,7 @@ components:
         id:
           type: "number"
           nullable: false
-          example: 504
+          example: 632
         name:
           type: "string"
           nullable: false
@@ -155,7 +155,7 @@ components:
         id:
           type: "number"
           nullable: false
-          example: 366
+          example: 538
         firstName:
           type: "string"
           nullable: false
@@ -222,7 +222,7 @@ components:
           items:
             type: "number"
             nullable: false
-            example: 960
+            example: 650
       required:
         - "userIds"
       description: "UpdateDependencyManagersRequest (Interface)"
@@ -232,15 +232,15 @@ components:
         id:
           type: "number"
           nullable: false
-          example: 33
+          example: 511
         dependencyId:
           type: "number"
           nullable: false
-          example: 759
+          example: 520
         roleId:
           type: "number"
           nullable: false
-          example: 263
+          example: 644
         firstName:
           type: "string"
           nullable: false
@@ -318,11 +318,11 @@ components:
         dependencyId:
           type: "number"
           nullable: false
-          example: 545
+          example: 953
         roleId:
           type: "number"
           nullable: false
-          example: 977
+          example: 515
         firstName:
           type: "string"
           nullable: false
@@ -370,11 +370,11 @@ components:
         dependencyId:
           type: "number"
           nullable: false
-          example: 980
+          example: 661
         roleId:
           type: "number"
           nullable: false
-          example: 392
+          example: 674
         firstName:
           type: "string"
           nullable: false
@@ -631,6 +631,72 @@ components:
       required:
         - "error"
       description: "ApiErrorResponse (Interface)"
+    ReportPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 539
+        folio:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        categoria:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        descripcion:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        direccion:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        latitud:
+          type: "number"
+          nullable: false
+          example: 889
+        longitud:
+          type: "number"
+          nullable: false
+          example: 507
+        precisionUbicacion:
+          type: "number"
+          nullable: false
+          example: 420
+        origenUbicacion:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        estado:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        fotoUrl:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        estadoEvidencia:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        creadoEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "id"
+        - "folio"
+        - "categoria"
+        - "latitud"
+        - "longitud"
+        - "origenUbicacion"
+        - "estado"
+        - "estadoEvidencia"
+        - "creadoEn"
+      description: "ReportPublic (Interface)"
     Credential:
       type: "object"
       properties:
@@ -646,7 +712,54 @@ components:
           items:
             $ref: "#/components/schemas/User"
             example: null
+        reportCategories:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ReportCategory"
+            example: null
+        reports:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Report"
+            example: null
       description: "Dependency (Model)"
+    Report:
+      type: "object"
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+          example: null
+        category:
+          $ref: "#/components/schemas/ReportCategory"
+          example: null
+        dependency:
+          $ref: "#/components/schemas/Dependency"
+          example: null
+        evidences:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ReportEvidence"
+            example: null
+      description: "Report (Model)"
+    ReportCategory:
+      type: "object"
+      properties:
+        dependency:
+          $ref: "#/components/schemas/Dependency"
+          example: null
+        reports:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Report"
+            example: null
+      description: "ReportCategory (Model)"
+    ReportEvidence:
+      type: "object"
+      properties:
+        report:
+          $ref: "#/components/schemas/Report"
+          example: null
+      description: "ReportEvidence (Model)"
     Role:
       type: "object"
       properties:
@@ -668,6 +781,11 @@ components:
         credential:
           $ref: "#/components/schemas/Credential"
           example: null
+        reports:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Report"
+            example: null
       description: "User (Model)"
     createDependencyValidator:
       type: "object"
@@ -696,7 +814,7 @@ components:
       properties:
         page:
           type: "number"
-          example: 969
+          example: 886
         perPage:
           type: "number"
           example: 1
@@ -707,13 +825,13 @@ components:
           example: "Lorem Ipsum"
           maxLength: 150
         isActive:
-          type: "number"
-          example: 0
+          type: "boolean"
+          example: true
       example:
-        page: 969
+        page: 886
         perPage: 1
         search: "Lorem Ipsum"
-        isActive: 0
+        isActive: true
       description: "listDependenciesValidator (Validator)"
     updateDependencyManagersValidator:
       type: "object"
@@ -757,15 +875,68 @@ components:
         name: "Lorem Ipsum"
         description: "Lorem Ipsum"
       description: "updateDependencyValidator (Validator)"
+    createReportValidator:
+      type: "object"
+      properties:
+        categoria:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 2
+          maxLength: 100
+        descripcion:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 2000
+        direccion:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 500
+        latitud:
+          type: "number"
+          example: -90
+          minimum: -90
+          maximum: 90
+        longitud:
+          type: "number"
+          example: -180
+          minimum: -180
+          maximum: 180
+        precisionUbicacion:
+          type: "number"
+          example: 696
+          maximum: 100000
+        origenUbicacion:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 20
+        foto:
+          type: "number"
+          example: 7
+      example:
+        categoria: "Lorem Ipsum"
+        descripcion: "Lorem Ipsum"
+        direccion: "Lorem Ipsum"
+        latitud: -90
+        longitud: -180
+        precisionUbicacion: 696
+        origenUbicacion: "Lorem Ipsum"
+        foto: 7
+      description: "createReportValidator (Validator)"
+      required:
+        - "categoria"
+        - "latitud"
+        - "longitud"
+        - "origenUbicacion"
+        - "foto"
     createUserValidator:
       type: "object"
       properties:
         dependencyId:
           type: "number"
-          example: 790
+          example: 124
         roleId:
           type: "number"
-          example: 982
+          example: 241
         firstName:
           type: "string"
           example: "Lorem Ipsum"
@@ -802,8 +973,8 @@ components:
           minLength: 8
           maxLength: 32
       example:
-        dependencyId: 790
-        roleId: 982
+        dependencyId: 124
+        roleId: 241
         firstName: "Lorem Ipsum"
         lastName: "Lorem Ipsum"
         email: "Lorem Ipsum"
@@ -826,7 +997,7 @@ components:
       properties:
         page:
           type: "number"
-          example: 29
+          example: 95
         perPage:
           type: "number"
           example: 1
@@ -838,19 +1009,19 @@ components:
           maxLength: 150
         roleId:
           type: "number"
-          example: 822
+          example: 700
         dependencyId:
           type: "number"
-          example: 216
+          example: 682
         isActive:
           type: "boolean"
           example: true
       example:
-        page: 29
+        page: 95
         perPage: 1
         search: "Lorem Ipsum"
-        roleId: 822
-        dependencyId: 216
+        roleId: 700
+        dependencyId: 682
         isActive: true
       description: "listUsersValidator (Validator)"
     loginValidator:
@@ -906,10 +1077,10 @@ components:
       properties:
         dependencyId:
           type: "number"
-          example: 441
+          example: 424
         roleId:
           type: "number"
-          example: 393
+          example: 704
         firstName:
           type: "string"
           example: "Lorem Ipsum"
@@ -933,8 +1104,8 @@ components:
           example: "Lorem Ipsum"
           maxLength: 100
       example:
-        dependencyId: 441
-        roleId: 393
+        dependencyId: 424
+        roleId: 704
         firstName: "Lorem Ipsum"
         lastName: "Lorem Ipsum"
         email: "Lorem Ipsum"
@@ -1026,9 +1197,9 @@ paths:
                 $ref: "#/components/schemas/ProfileApiResponse"
               example:
                 data:
-                  id: 33
-                  dependencyId: 759
-                  roleId: 263
+                  id: 511
+                  dependencyId: 520
+                  roleId: 644
                   firstName: "Lorem Ipsum"
                   lastName: "Lorem Ipsum"
                   email: "Lorem Ipsum"
@@ -1102,6 +1273,103 @@ paths:
       security:
         - BearerAuth:
             - "access"
+  /api/v1/reports:
+    post:
+      summary: "Crear un reporte ciudadano (store)"
+      description: "Returns **201** (Created) as **application/json**\n\n _app/controllers/reports_controller.ts_ - **store**"
+      operationId: "createReport"
+      parameters: []
+      tags:
+        - "REPORTS"
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportPublic"
+              example:
+                id: 539
+                folio: "Lorem Ipsum"
+                categoria: "Lorem Ipsum"
+                descripcion: "Lorem Ipsum"
+                direccion: "Lorem Ipsum"
+                latitud: 889
+                longitud: 507
+                precisionUbicacion: 420
+                origenUbicacion: "Lorem Ipsum"
+                estado: "Lorem Ipsum"
+                fotoUrl: "Lorem Ipsum"
+                estadoEvidencia: "Lorem Ipsum"
+                creadoEn: "Lorem Ipsum"
+          description: "Returns **201** (Created) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          description: "Returns **403** (Forbidden)"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: "object"
+              properties:
+                categoria:
+                  type: "string"
+                  example: "Bache"
+                descripcion:
+                  type: "string"
+                  nullable: true
+                direccion:
+                  type: "string"
+                  nullable: true
+                latitud:
+                  type: "number"
+                  format: "double"
+                  example: 20.67665
+                longitud:
+                  type: "number"
+                  format: "double"
+                  example: -103.34751
+                precisionUbicacion:
+                  type: "number"
+                  format: "double"
+                  nullable: true
+                  example: 12.5
+                origenUbicacion:
+                  type: "string"
+                  enum:
+                    - "gps"
+                    - "manual"
+                foto:
+                  type: "string"
+                  format: "binary"
+              required:
+                - "categoria"
+                - "latitud"
+                - "longitud"
+                - "origenUbicacion"
+                - "foto"
+        required: true
   /api/v1/admin/dependencies:
     get:
       summary: "Listar dependencias (index)"
@@ -1146,16 +1414,16 @@ paths:
                 $ref: "#/components/schemas/DependenciesListApiResponse"
               example:
                 data:
-                  - id: 504
+                  - id: 632
                     name: "Lorem Ipsum"
                     description: "Lorem Ipsum"
                     isActive: true
                 meta:
-                  total: 105
-                  perPage: 542
-                  currentPage: 806
-                  lastPage: 934
-                  firstPage: 872
+                  total: 395
+                  perPage: 372
+                  currentPage: 858
+                  lastPage: 133
+                  firstPage: 175
                   firstPageUrl: "Lorem Ipsum"
                   lastPageUrl: "Lorem Ipsum"
                   nextPageUrl: "Lorem Ipsum"
@@ -1209,7 +1477,7 @@ paths:
                 $ref: "#/components/schemas/CreateDependencyApiResponse"
               example:
                 data:
-                  id: 504
+                  id: 632
                   name: "Lorem Ipsum"
                   description: "Lorem Ipsum"
                   isActive: true
@@ -1280,7 +1548,7 @@ paths:
                 $ref: "#/components/schemas/DependencyDetailApiResponse"
               example:
                 data:
-                  id: 504
+                  id: 632
                   name: "Lorem Ipsum"
                   description: "Lorem Ipsum"
                   isActive: true
@@ -1340,7 +1608,7 @@ paths:
                 $ref: "#/components/schemas/UpdateDependencyApiResponse"
               example:
                 data:
-                  id: 504
+                  id: 632
                   name: "Lorem Ipsum"
                   description: "Lorem Ipsum"
                   isActive: true
@@ -1420,7 +1688,7 @@ paths:
                 $ref: "#/components/schemas/UpdateDependencyStatusApiResponse"
               example:
                 data:
-                  id: 504
+                  id: 632
                   name: "Lorem Ipsum"
                   description: "Lorem Ipsum"
                   isActive: true
@@ -1509,7 +1777,7 @@ paths:
                 $ref: "#/components/schemas/UpdateDependencyManagersApiResponse"
               example:
                 data:
-                  id: 504
+                  id: 632
                   name: "Lorem Ipsum"
                   description: "Lorem Ipsum"
                   isActive: true
@@ -1574,7 +1842,7 @@ paths:
               $ref: "#/components/schemas/UpdateDependencyManagersRequest"
             example:
               userIds:
-                - 960
+                - 650
         required: true
   /api/v1/admin/roles:
     get:
@@ -1592,7 +1860,7 @@ paths:
                 $ref: "#/components/schemas/RolesListApiResponse"
               example:
                 data:
-                  - id: 49
+                  - id: 861
                     name: "Lorem Ipsum"
                     slug: "Lorem Ipsum"
                     description: "Lorem Ipsum"
@@ -1680,9 +1948,9 @@ paths:
                 $ref: "#/components/schemas/UsersListApiResponse"
               example:
                 data:
-                  - id: 33
-                    dependencyId: 759
-                    roleId: 263
+                  - id: 511
+                    dependencyId: 520
+                    roleId: 644
                     firstName: "Lorem Ipsum"
                     lastName: "Lorem Ipsum"
                     email: "Lorem Ipsum"
@@ -1693,11 +1961,11 @@ paths:
                     updatedAt: "Lorem Ipsum"
                     initials: "Lorem Ipsum"
                 meta:
-                  total: 105
-                  perPage: 542
-                  currentPage: 806
-                  lastPage: 934
-                  firstPage: 872
+                  total: 395
+                  perPage: 372
+                  currentPage: 858
+                  lastPage: 133
+                  firstPage: 175
                   firstPageUrl: "Lorem Ipsum"
                   lastPageUrl: "Lorem Ipsum"
                   nextPageUrl: "Lorem Ipsum"
@@ -1751,9 +2019,9 @@ paths:
                 $ref: "#/components/schemas/CreateUserApiResponse"
               example:
                 data:
-                  id: 33
-                  dependencyId: 759
-                  roleId: 263
+                  id: 511
+                  dependencyId: 520
+                  roleId: 644
                   firstName: "Lorem Ipsum"
                   lastName: "Lorem Ipsum"
                   email: "Lorem Ipsum"
@@ -1803,8 +2071,8 @@ paths:
             schema:
               $ref: "#/components/schemas/CreateUserRequest"
             example:
-              dependencyId: 545
-              roleId: 977
+              dependencyId: 953
+              roleId: 515
               firstName: "Lorem Ipsum"
               lastName: "Lorem Ipsum"
               email: "Lorem Ipsum"
@@ -1836,9 +2104,9 @@ paths:
                 $ref: "#/components/schemas/UserDetailApiResponse"
               example:
                 data:
-                  id: 33
-                  dependencyId: 759
-                  roleId: 263
+                  id: 511
+                  dependencyId: 520
+                  roleId: 644
                   firstName: "Lorem Ipsum"
                   lastName: "Lorem Ipsum"
                   email: "Lorem Ipsum"
@@ -1904,9 +2172,9 @@ paths:
                 $ref: "#/components/schemas/UpdateUserApiResponse"
               example:
                 data:
-                  id: 33
-                  dependencyId: 759
-                  roleId: 263
+                  id: 511
+                  dependencyId: 520
+                  roleId: 644
                   firstName: "Lorem Ipsum"
                   lastName: "Lorem Ipsum"
                   email: "Lorem Ipsum"
@@ -1976,8 +2244,8 @@ paths:
             schema:
               $ref: "#/components/schemas/UpdateUserRequest"
             example:
-              dependencyId: 980
-              roleId: 392
+              dependencyId: 661
+              roleId: 674
               firstName: "Lorem Ipsum"
               lastName: "Lorem Ipsum"
               email: "Lorem Ipsum"
@@ -2007,9 +2275,9 @@ paths:
                 $ref: "#/components/schemas/UpdateUserStatusApiResponse"
               example:
                 data:
-                  id: 33
-                  dependencyId: 759
-                  roleId: 263
+                  id: 511
+                  dependencyId: 520
+                  roleId: 644
                   firstName: "Lorem Ipsum"
                   lastName: "Lorem Ipsum"
                   email: "Lorem Ipsum"
@@ -2161,7 +2429,9 @@ tags:
     description: "Everything related to AUTH"
   - name: "ACCOUNT"
     description: "Everything related to ACCOUNT"
+  - name: "REPORTS"
+    description: "Everything related to REPORTS"
   - name: "ADMIN"
     description: "Everything related to ADMIN"
 servers:
-  - url: "http://localhost:52664"
+  - url: "http://localhost:3333"

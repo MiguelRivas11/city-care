@@ -308,10 +308,56 @@ export interface ApiErrorResponse {
 }
 
 /**
+ * ReportPublic (Interface)
+ */
+export interface ReportPublic {
+  id: number
+  folio: string
+  categoria: string
+  descripcion?: string
+  direccion?: string
+  latitud: number
+  longitud: number
+  precisionUbicacion?: number
+  origenUbicacion: string
+  estado: string
+  fotoUrl?: string
+  estadoEvidencia: string
+  creadoEn: string
+}
+
+/**
+ * ReportEvidence (Model)
+ */
+export interface ReportEvidence {
+  report?: Report
+}
+
+/**
+ * Report (Model)
+ */
+export interface Report {
+  user?: User
+  category?: ReportCategory
+  dependency?: Dependency
+  evidences?: ReportEvidence[]
+}
+
+/**
+ * ReportCategory (Model)
+ */
+export interface ReportCategory {
+  dependency?: Dependency
+  reports?: Report[]
+}
+
+/**
  * Dependency (Model)
  */
 export interface Dependency {
   users?: User[]
+  reportCategories?: ReportCategory[]
+  reports?: Report[]
 }
 
 /**
@@ -328,6 +374,7 @@ export interface User {
   dependency?: Dependency
   role?: Role
   credential?: Credential
+  reports?: Report[]
 }
 
 /**
@@ -363,7 +410,7 @@ export interface ListDependenciesValidator {
   perPage?: number
   /** @maxLength 150 */
   search?: string
-  isActive?: number
+  isActive?: boolean
 }
 
 /**
@@ -392,6 +439,36 @@ export interface UpdateDependencyValidator {
   name?: string
   /** @maxLength 1000 */
   description?: string
+}
+
+/**
+ * createReportValidator (Validator)
+ */
+export interface CreateReportValidator {
+  /**
+   * @minLength 2
+   * @maxLength 100
+   */
+  categoria: string
+  /** @maxLength 2000 */
+  descripcion?: string
+  /** @maxLength 500 */
+  direccion?: string
+  /**
+   * @minimum -90
+   * @maximum 90
+   */
+  latitud: number
+  /**
+   * @minimum -180
+   * @maximum 180
+   */
+  longitud: number
+  /** @maximum 100000 */
+  precisionUbicacion?: number
+  /** @maxLength 20 */
+  origenUbicacion: string
+  foto: number
 }
 
 /**
@@ -527,6 +604,28 @@ export type NotFoundResponse = void
  */
 export type NotAcceptableResponse = void
 
+export type CreateReportBodyOrigenUbicacion =
+  (typeof CreateReportBodyOrigenUbicacion)[keyof typeof CreateReportBodyOrigenUbicacion]
+
+export const CreateReportBodyOrigenUbicacion = {
+  gps: 'gps',
+  manual: 'manual',
+} as const
+
+export type CreateReportBody = {
+  categoria: string
+  /** @nullable */
+  descripcion?: string | null
+  /** @nullable */
+  direccion?: string | null
+  latitud: number
+  longitud: number
+  /** @nullable */
+  precisionUbicacion?: number | null
+  origenUbicacion: CreateReportBodyOrigenUbicacion
+  foto: Blob | File
+}
+
 export type ListDependenciesParams = {
   /**
    * Número de página
@@ -574,7 +673,7 @@ export type ListUsersParams = {
 }
 
 export const getLoginUrl = () => {
-  return `http://localhost:52664/api/v1/auth/login`
+  return `http://localhost:3333/api/v1/auth/login`
 }
 
 /**
@@ -627,7 +726,7 @@ export const login = async (
 }
 
 export const getGetProfileUrl = () => {
-  return `http://localhost:52664/api/v1/account/profile`
+  return `http://localhost:3333/api/v1/account/profile`
 }
 
 /**
@@ -656,7 +755,7 @@ export const getProfile = async (options?: RequestInit): Promise<ProfileApiRespo
 }
 
 export const getLogoutUrl = () => {
-  return `http://localhost:52664/api/v1/account/logout`
+  return `http://localhost:3333/api/v1/account/logout`
 }
 
 /**
@@ -684,6 +783,57 @@ export const logout = async (options?: RequestInit): Promise<LogoutApiResponse> 
   return data
 }
 
+export const getCreateReportUrl = () => {
+  return `http://localhost:3333/api/v1/reports`
+}
+
+/**
+ * Returns **201** (Created) as **application/json**
+ *
+ *  _app/controllers/reports_controller.ts_ - **store**
+ * @summary Crear un reporte ciudadano (store)
+ */
+export const createReport = async (
+  createReportBody: CreateReportBody,
+  options?: RequestInit
+): Promise<ReportPublic> => {
+  const formData = new FormData()
+  formData.append(`categoria`, createReportBody.categoria)
+  if (createReportBody.descripcion !== undefined && createReportBody.descripcion !== null) {
+    formData.append(`descripcion`, createReportBody.descripcion)
+  }
+  if (createReportBody.direccion !== undefined && createReportBody.direccion !== null) {
+    formData.append(`direccion`, createReportBody.direccion)
+  }
+  formData.append(`latitud`, createReportBody.latitud.toString())
+  formData.append(`longitud`, createReportBody.longitud.toString())
+  if (
+    createReportBody.precisionUbicacion !== undefined &&
+    createReportBody.precisionUbicacion !== null
+  ) {
+    formData.append(`precisionUbicacion`, createReportBody.precisionUbicacion.toString())
+  }
+  formData.append(`origenUbicacion`, createReportBody.origenUbicacion)
+  formData.append(`foto`, createReportBody.foto)
+
+  const res = await fetch(getCreateReportUrl(), {
+    ...options,
+    method: 'POST',
+    body: formData,
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: ReportPublic; status?: number } = new globalThis.Error()
+    const data: ReportPublic = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: ReportPublic = body ? JSON.parse(body) : {}
+  return data
+}
+
 export const getListDependenciesUrl = (params?: ListDependenciesParams) => {
   const normalizedParams = new URLSearchParams()
 
@@ -696,8 +846,8 @@ export const getListDependenciesUrl = (params?: ListDependenciesParams) => {
   const stringifiedParams = normalizedParams.toString()
 
   return stringifiedParams.length > 0
-    ? `http://localhost:52664/api/v1/admin/dependencies?${stringifiedParams}`
-    : `http://localhost:52664/api/v1/admin/dependencies`
+    ? `http://localhost:3333/api/v1/admin/dependencies?${stringifiedParams}`
+    : `http://localhost:3333/api/v1/admin/dependencies`
 }
 
 /**
@@ -729,7 +879,7 @@ export const listDependencies = async (
 }
 
 export const getCreateDependencyUrl = () => {
-  return `http://localhost:52664/api/v1/admin/dependencies`
+  return `http://localhost:3333/api/v1/admin/dependencies`
 }
 
 /**
@@ -782,7 +932,7 @@ export const createDependency = async (
 }
 
 export const getGetDependencyUrl = (id: number) => {
-  return `http://localhost:52664/api/v1/admin/dependencies/${id}`
+  return `http://localhost:3333/api/v1/admin/dependencies/${id}`
 }
 
 /**
@@ -814,7 +964,7 @@ export const getDependency = async (
 }
 
 export const getUpdateDependencyUrl = (id: number) => {
-  return `http://localhost:52664/api/v1/admin/dependencies/${id}`
+  return `http://localhost:3333/api/v1/admin/dependencies/${id}`
 }
 
 /**
@@ -868,7 +1018,7 @@ export const updateDependency = async (
 }
 
 export const getUpdateDependencyStatusUrl = (id: number) => {
-  return `http://localhost:52664/api/v1/admin/dependencies/${id}/status`
+  return `http://localhost:3333/api/v1/admin/dependencies/${id}/status`
 }
 
 /**
@@ -922,7 +1072,7 @@ export const updateDependencyStatus = async (
 }
 
 export const getUpdateDependencyManagersUrl = (id: number) => {
-  return `http://localhost:52664/api/v1/admin/dependencies/${id}/managers`
+  return `http://localhost:3333/api/v1/admin/dependencies/${id}/managers`
 }
 
 /**
@@ -976,7 +1126,7 @@ export const updateDependencyManagers = async (
 }
 
 export const getListRolesUrl = () => {
-  return `http://localhost:52664/api/v1/admin/roles`
+  return `http://localhost:3333/api/v1/admin/roles`
 }
 
 /**
@@ -1016,8 +1166,8 @@ export const getListUsersUrl = (params?: ListUsersParams) => {
   const stringifiedParams = normalizedParams.toString()
 
   return stringifiedParams.length > 0
-    ? `http://localhost:52664/api/v1/admin/users?${stringifiedParams}`
-    : `http://localhost:52664/api/v1/admin/users`
+    ? `http://localhost:3333/api/v1/admin/users?${stringifiedParams}`
+    : `http://localhost:3333/api/v1/admin/users`
 }
 
 /**
@@ -1049,7 +1199,7 @@ export const listUsers = async (
 }
 
 export const getCreateUserUrl = () => {
-  return `http://localhost:52664/api/v1/admin/users`
+  return `http://localhost:3333/api/v1/admin/users`
 }
 
 /**
@@ -1102,7 +1252,7 @@ export const createUser = async (
 }
 
 export const getGetUserUrl = (id: number) => {
-  return `http://localhost:52664/api/v1/admin/users/${id}`
+  return `http://localhost:3333/api/v1/admin/users/${id}`
 }
 
 /**
@@ -1134,7 +1284,7 @@ export const getUser = async (
 }
 
 export const getUpdateUserUrl = (id: number) => {
-  return `http://localhost:52664/api/v1/admin/users/${id}`
+  return `http://localhost:3333/api/v1/admin/users/${id}`
 }
 
 /**
@@ -1188,7 +1338,7 @@ export const updateUser = async (
 }
 
 export const getUpdateUserStatusUrl = (id: number) => {
-  return `http://localhost:52664/api/v1/admin/users/${id}/status`
+  return `http://localhost:3333/api/v1/admin/users/${id}/status`
 }
 
 /**
@@ -1242,7 +1392,7 @@ export const updateUserStatus = async (
 }
 
 export const getResetUserPasswordUrl = (id: number) => {
-  return `http://localhost:52664/api/v1/admin/users/${id}/password`
+  return `http://localhost:3333/api/v1/admin/users/${id}/password`
 }
 
 /**

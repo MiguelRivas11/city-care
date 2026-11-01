@@ -192,3 +192,19 @@ export interface ApiErrorBody {
 export interface ApiErrorResponse {
   error: ApiErrorBody
 }
+
+export interface ReportPublic {
+  id: number
+  folio: string
+  categoria: string
+  descripcion?: string
+  direccion?: string
+  latitud: number
+  longitud: number
+  precisionUbicacion?: number
+  origenUbicacion: string
+  estado: string
+  fotoUrl?: string
+  estadoEvidencia: string
+  creadoEn: string
+}

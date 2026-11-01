@@ -13,6 +13,9 @@ tmp/*
 # Frontend assets compiled code
 public/assets
 
+# Evidencias privadas preparadas para almacenamiento de objetos
+storage/report-evidence-staging/*
+
 # Documentation render previews used only for visual QA
 docs/rendered-*/
 
