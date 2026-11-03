@@ -2,6 +2,8 @@ import { ReportSchema } from '#database/schema'
 import Dependency from '#models/dependency'
 import ReportCategory from '#models/report_category'
 import ReportEvidence from '#models/report_evidence'
+import ReportStatusHistory from '#models/report_status_history'
+import ReportAssignment from '#models/report_assignment'
 import User from '#models/user'
 import { belongsTo, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
@@ -18,4 +20,13 @@ export default class Report extends ReportSchema {
 
   @hasMany(() => ReportEvidence)
   declare evidences: HasMany<typeof ReportEvidence>
+
+  @hasMany(() => ReportStatusHistory)
+  declare statusHistory: HasMany<typeof ReportStatusHistory>
+
+  @hasMany(() => ReportAssignment)
+  declare assignments: HasMany<typeof ReportAssignment>
+
+  @belongsTo(() => ReportAssignment, { foreignKey: 'currentAssignmentId' })
+  declare currentAssignment: BelongsTo<typeof ReportAssignment>
 }

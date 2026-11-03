@@ -10,6 +10,8 @@ import Credential from '#models/credential'
 import Role from '#models/role'
 import env from '#start/env'
 import Report from '#models/report'
+import ReportStatusHistory from '#models/report_status_history'
+import WorkTeam from '#models/work_team'
 
 export default class User extends compose(UserSchema, withAuthFinder(hash)) {
   static accessTokens = DbAccessTokensProvider.forModel(User, {
@@ -29,6 +31,12 @@ export default class User extends compose(UserSchema, withAuthFinder(hash)) {
 
   @hasMany(() => Report)
   declare reports: HasMany<typeof Report>
+
+  @hasMany(() => ReportStatusHistory, { foreignKey: 'changedByUserId' })
+  declare reportStatusChanges: HasMany<typeof ReportStatusHistory>
+
+  @hasMany(() => WorkTeam, { foreignKey: 'leaderUserId' })
+  declare ledWorkTeams: HasMany<typeof WorkTeam>
 
   get initials() {
     const first = this.firstName ?? ''

@@ -193,9 +193,25 @@ export interface ApiErrorResponse {
   error: ApiErrorBody
 }
 
+export interface ReportCategoryPublic {
+  id: number
+  codigo: string
+  nombre: string
+  descripcion?: string
+  requiereDescripcion: boolean
+  dependenciaId?: number
+}
+
+export interface ReportCategoriesListApiResponse {
+  data: ReportCategoryPublic[]
+}
+
 export interface ReportPublic {
   id: number
+  version: number
   folio: string
+  categoriaId: number
+  categoriaCodigo: string
   categoria: string
   descripcion?: string
   direccion?: string
@@ -203,8 +219,219 @@ export interface ReportPublic {
   longitud: number
   precisionUbicacion?: number
   origenUbicacion: string
+  estadoCodigo: string
   estado: string
-  fotoUrl?: string
+  fotoUrl: string
+  fotoUrlExpira: boolean
   estadoEvidencia: string
+  dependencia?: ReportDependencyPublic
+  asignacionActual?: ReportCurrentAssignmentPublic
+  ciudadano?: ReportCitizenPublic
+  historial?: ReportStatusHistoryPublic[]
   creadoEn: string
+  actualizadoEn: string
+}
+
+export interface ReportDependencyPublic {
+  id: number
+  nombre: string
+}
+
+export interface ReportCurrentAssignmentPublic {
+  id: number
+  prioridad: string
+  observaciones?: string
+  asignadoEn: string
+  fechaLimite?: string
+  equipo: ReportAssignedTeamPublic
+}
+
+export interface ReportAssignedTeamPublic {
+  id: number
+  nombre: string
+  dependenciaId: number
+  lider?: ReportStatusActorPublic
+}
+
+export interface ReportCitizenPublic {
+  id: number
+  nombre: string
+  email: string
+}
+
+export interface ReportStatusActorPublic {
+  id: number
+  nombre: string
+}
+
+export interface ReportStatusHistoryPublic {
+  id: number
+  estadoAnteriorCodigo?: string
+  estadoAnterior?: string
+  estadoNuevoCodigo: string
+  estadoNuevo: string
+  origen: string
+  observacion?: string
+  cambiadoPor?: ReportStatusActorPublic
+  creadoEn: string
+}
+
+export interface ReportsListApiResponse {
+  data: ReportPublic[]
+  meta: PaginationMeta
+}
+
+export interface ReportDetailApiResponse {
+  id: number
+  version: number
+  folio: string
+  categoriaId: number
+  categoriaCodigo: string
+  categoria: string
+  descripcion?: string
+  direccion?: string
+  latitud: number
+  longitud: number
+  precisionUbicacion?: number
+  origenUbicacion: string
+  estadoCodigo: string
+  estado: string
+  fotoUrl: string
+  fotoUrlExpira: boolean
+  estadoEvidencia: string
+  dependencia?: ReportDependencyPublic
+  asignacionActual?: ReportCurrentAssignmentPublic
+  ciudadano?: ReportCitizenPublic
+  historial: ReportStatusHistoryPublic[]
+  creadoEn: string
+  actualizadoEn: string
+}
+
+export interface UpdateReportStatusRequest {
+  status: string
+  expectedVersion: number
+  note?: string
+}
+
+export interface ReportDuplicateCandidateSummary {
+  id: number
+  folio: string
+  categoria: string
+  estadoCodigo: string
+  latitud: number
+  longitud: number
+  direccion?: string
+  creadoEn: string
+}
+
+export interface ReportDuplicateReviewPublic {
+  id: number
+  estado: string
+  distanciaMetros: number
+  detectadoEn: string
+  revisadoEn?: string
+  observacion?: string
+  revisadoPor?: ReportStatusActorPublic
+  reporte: ReportDuplicateCandidateSummary
+}
+
+export interface ReportDuplicateReviewsApiResponse {
+  data: ReportDuplicateReviewPublic[]
+  reglas: ReportDuplicateRulesPublic
+}
+
+export interface ReportDuplicateRulesPublic {
+  distanciaMaximaMetros: number
+  ventanaMaximaHoras: number
+}
+
+export interface ReviewReportDuplicateRequest {
+  status: string
+  note?: string
+}
+
+export interface WorkTeamUserPublic {
+  id: number
+  nombre: string
+  email: string
+  puesto?: string
+}
+
+export interface WorkTeamPublic {
+  id: number
+  dependencia: ReportDependencyPublic
+  nombre: string
+  descripcion?: string
+  activo: boolean
+  lider?: WorkTeamUserPublic
+  integrantes: WorkTeamUserPublic[]
+  creadoEn: string
+  actualizadoEn: string
+}
+
+export interface WorkTeamsListApiResponse {
+  data: WorkTeamPublic[]
+  meta: PaginationMeta
+}
+
+export interface WorkTeamDetailApiResponse {
+  data: WorkTeamPublic
+}
+
+export interface CreateWorkTeamRequest {
+  dependencyId: number
+  name: string
+  description?: string
+  leaderUserId: number
+  memberUserIds: number[]
+}
+
+export interface UpdateWorkTeamRequest {
+  name?: string
+  description?: string
+  leaderUserId?: number
+}
+
+export interface UpdateWorkTeamStatusRequest {
+  isActive: boolean
+}
+
+export interface UpdateWorkTeamMembersRequest {
+  memberUserIds: number[]
+}
+
+export interface AssignReportRequest {
+  workTeamId: number
+  expectedVersion: number
+  priority: string
+  dueAt?: string
+  observations?: string
+}
+
+export interface UnassignReportRequest {
+  expectedVersion: number
+  note: string
+}
+
+export interface ReportAssignmentPublic {
+  id: number
+  reporteId: number
+  equipo: WorkTeamPublic
+  prioridad: string
+  observaciones?: string
+  asignadoEn: string
+  fechaLimite?: string
+  asignadoPor?: WorkTeamUserPublic
+  activa: boolean
+  retiradaEn?: string
+  motivoRetiro?: string
+  retiradaPor?: WorkTeamUserPublic
+}
+
+export interface ReportAssignmentApiResponse {
+  data: ReportAssignmentPublic
+}
+
+export interface ReportAssignmentsListApiResponse {
+  data: ReportAssignmentPublic[]
 }

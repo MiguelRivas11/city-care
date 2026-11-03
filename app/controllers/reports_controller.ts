@@ -8,14 +8,14 @@ import db from '@adonisjs/lucid/services/db'
 import Report from '#models/report'
 import ReportCategory from '#models/report_category'
 import ReportEvidence from '#models/report_evidence'
+import ReportStatusHistory from '#models/report_status_history'
+import MinioReportEvidenceService, {
+  type StoredReportEvidence,
+} from '#services/minio_report_evidence_service'
 import ReportEvidenceStagingService from '#services/report_evidence_staging_service'
+import ReportDuplicateDetectionService from '#services/report_duplicate_detection_service'
+import ReportPresenterService from '#services/report_presenter_service'
 import { createReportValidator } from '#validators/report'
-
-const statusLabels: Record<string, string> = {
-  pending: 'Pendiente',
-  in_progress: 'En proceso',
-  resolved: 'Resuelto',
-}
 
 function reportCategoryNotFound() {
   return new Exception('La categoría seleccionada no es válida', {
@@ -24,37 +24,17 @@ function reportCategoryNotFound() {
   })
 }
 
-function toPublicReport(report: Report) {
-  const primaryEvidence = report.evidences[0]
-
-  return {
-    id: report.id,
-    folio: report.folio,
-    categoria: report.category.name,
-    ...(report.description ? { descripcion: report.description } : {}),
-    ...(report.address ? { direccion: report.address } : {}),
-    latitud: Number(report.latitude),
-    longitud: Number(report.longitude),
-    ...(report.locationAccuracy === null
-      ? {}
-      : { precisionUbicacion: Number(report.locationAccuracy) }),
-    origenUbicacion: report.locationSource,
-    estado: statusLabels[report.status] ?? report.status,
-    estadoEvidencia: primaryEvidence?.storageStatus === 'staged' ? 'Pendiente' : 'No disponible',
-    creadoEn: report.createdAt.toUTC().toISO(),
-  }
-}
-
 export default class ReportsController {
   /**
    * @store
    * @operationId createReport
    * @summary Crear un reporte ciudadano
-   * @description Recibe la categoría, ubicación, descripción y fotografía. La evidencia queda resguardada en preparación privada hasta su transferencia a MinIO.
+   * @description Recibe la categoría, ubicación, descripción y fotografía. La evidencia se almacena en MinIO y la respuesta incluye una URL firmada temporal.
    * @requestFormDataBody {"categoria":{"type":"string","required":true,"example":"Bache"},"descripcion":{"type":"string","nullable":true},"direccion":{"type":"string","nullable":true},"latitud":{"type":"number","format":"double","required":true,"example":20.67665},"longitud":{"type":"number","format":"double","required":true,"example":-103.34751},"precisionUbicacion":{"type":"number","format":"double","nullable":true,"example":12.5},"origenUbicacion":{"type":"string","enum":["gps","manual"],"required":true},"foto":{"type":"string","format":"binary","required":true}}
    * @responseBody 201 - <ReportPublic>
    * @responseBody 401 - <ApiErrorResponse>
    * @responseBody 422 - <ApiErrorResponse>
+   * @responseBody 503 - <ApiErrorResponse>
    */
   async store({ auth, request, response }: HttpContext) {
     const actor = auth.getUserOrFail()
@@ -92,12 +72,16 @@ export default class ReportsController {
     const stagedEvidence = await ReportEvidenceStagingService.stage(payload.foto)
 
     let report: Report
+    let storedEvidence: StoredReportEvidence | undefined
 
     try {
+      const uploadedEvidence = await MinioReportEvidenceService.store(stagedEvidence)
+      storedEvidence = uploadedEvidence
+
       report = await db.transaction(async (trx) => {
         const createdReport = await Report.create(
           {
-            folio: `TMP-${randomUUID()}`,
+            folio: `TMP-${randomUUID().replaceAll('-', '').slice(0, 27)}`,
             userId: actor.id,
             categoryId: category.id,
             dependencyId: category.dependencyId,
@@ -119,10 +103,10 @@ export default class ReportsController {
           {
             reportId: createdReport.id,
             kind: 'image',
-            storageProvider: 'local_staging',
-            storageStatus: 'staged',
-            bucket: null,
-            objectKey: stagedEvidence.objectKey,
+            storageProvider: 'minio',
+            storageStatus: 'stored',
+            bucket: uploadedEvidence.bucket,
+            objectKey: uploadedEvidence.objectKey,
             originalName: stagedEvidence.originalName,
             mimeType: stagedEvidence.mimeType,
             sizeBytes: stagedEvidence.sizeBytes,
@@ -130,15 +114,52 @@ export default class ReportsController {
           { client: trx }
         )
 
+        await ReportStatusHistory.create(
+          {
+            reportId: createdReport.id,
+            previousStatus: null,
+            newStatus: 'pending',
+            changedByUserId: actor.id,
+            source: 'creation',
+            note: 'Reporte creado por el ciudadano',
+          },
+          { client: trx }
+        )
+
+        await ReportDuplicateDetectionService.synchronize(createdReport, trx)
+
         return createdReport
       })
     } catch (error) {
-      await ReportEvidenceStagingService.remove(stagedEvidence)
+      if (storedEvidence) {
+        try {
+          await MinioReportEvidenceService.remove(storedEvidence)
+        } catch (cleanupError) {
+          logger.error(
+            {
+              err: cleanupError,
+              bucket: storedEvidence.bucket,
+              objectKey: storedEvidence.objectKey,
+            },
+            'report_evidence_minio_compensation_failed'
+          )
+        }
+      }
       throw error
+    } finally {
+      try {
+        await ReportEvidenceStagingService.remove(stagedEvidence)
+      } catch (cleanupError) {
+        logger.warn(
+          { err: cleanupError, objectKey: stagedEvidence.objectKey },
+          'report_evidence_staging_cleanup_failed'
+        )
+      }
     }
 
     await report.load('category')
     await report.load('evidences')
+    await report.load('dependency')
 
     logger.info(
       {
@@ -150,6 +171,6 @@ export default class ReportsController {
       'report_created'
     )
 
-    return response.created(toPublicReport(report))
+    return response.created(await ReportPresenterService.present(report))
   }
 }

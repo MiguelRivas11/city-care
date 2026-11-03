@@ -9,6 +9,9 @@ export const controllers = {
   Dependencies: () => import('#controllers/dependencies_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   Profile: () => import('#controllers/profile_controller'),
+  ReportCategories: () => import('#controllers/report_categories_controller'),
+  ReportQueries: () => import('#controllers/report_queries_controller'),
   Reports: () => import('#controllers/reports_controller'),
   Roles: () => import('#controllers/roles_controller'),
+  WorkTeams: () => import('#controllers/work_teams_controller'),
 }

@@ -13,3 +13,34 @@ export const createReportValidator = vine.create({
     extnames: ['jpg', 'jpeg', 'png'],
   }),
 })
+
+export const listReportsValidator = vine.create({
+  page: vine.number().positive().withoutDecimals().optional(),
+  perPage: vine.number().range([1, 100]).withoutDecimals().optional(),
+  search: vine.string().trim().maxLength(150).optional(),
+  status: vine.string().trim().maxLength(20).optional(),
+  categoryId: vine.number().positive().withoutDecimals().optional(),
+  dependencyId: vine.number().positive().withoutDecimals().optional(),
+  userId: vine.number().positive().withoutDecimals().optional(),
+  from: vine
+    .string()
+    .trim()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .optional(),
+  to: vine
+    .string()
+    .trim()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .optional(),
+})
+
+export const updateReportStatusValidator = vine.create({
+  status: vine.string().trim().maxLength(20),
+  expectedVersion: vine.number().positive().withoutDecimals(),
+  note: vine.string().trim().minLength(3).maxLength(1000).optional(),
+})
+
+export const reviewReportDuplicateValidator = vine.create({
+  status: vine.enum(['confirmed', 'dismissed']),
+  note: vine.string().trim().minLength(3).maxLength(1000).optional(),
+})

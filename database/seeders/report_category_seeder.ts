@@ -17,18 +17,22 @@ const categories = [
 export default class extends BaseSeeder {
   async run() {
     for (const category of categories) {
-      await ReportCategory.updateOrCreate(
-        { code: category.code },
-        {
-          code: category.code,
-          name: category.name,
-          description: null,
-          dependencyId: null,
-          requiresDescription:
-            'requiresDescription' in category ? category.requiresDescription : false,
-          isActive: true,
-        }
-      )
+      const existing = await ReportCategory.findBy('code', category.code)
+      const values = {
+        code: category.code,
+        name: category.name,
+        description: existing?.description ?? null,
+        requiresDescription:
+          'requiresDescription' in category ? category.requiresDescription : false,
+        isActive: true,
+      }
+
+      if (existing) {
+        existing.merge(values)
+        await existing.save()
+      } else {
+        await ReportCategory.create({ ...values, dependencyId: null })
+      }
     }
   }
 }

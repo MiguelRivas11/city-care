@@ -55,6 +55,210 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/reports_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'report_categories.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/report-categories'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/report_categories_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/report_categories_controller').default['index']>>>
+    }
+  }
+  'reports.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/reports'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/report').listReportsValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['mine']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['mine']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'reports.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/reports/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['showMine']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['showMine']>>>
+    }
+  }
+  'admin.report_queries.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/reports'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/report').listReportsValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.report_queries.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/reports/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['show']>>>
+    }
+  }
+  'admin.report_queries.possible_duplicates': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/reports/:id/possible-duplicates'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['possibleDuplicates']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['possibleDuplicates']>>>
+    }
+  }
+  'admin.report_queries.review_possible_duplicate': {
+    methods: ["PATCH"]
+    pattern: '/api/v1/admin/reports/:id/possible-duplicates/:reviewId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/report').reviewReportDuplicateValidator)>>
+      paramsTuple: [ParamValue, ParamValue]
+      params: { id: ParamValue; reviewId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/report').reviewReportDuplicateValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['reviewPossibleDuplicate']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['reviewPossibleDuplicate']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.report_queries.update_status': {
+    methods: ["PATCH"]
+    pattern: '/api/v1/admin/reports/:id/status'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/report').updateReportStatusValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/report').updateReportStatusValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['updateStatus']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/report_queries_controller').default['updateStatus']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.work_teams.assign_report': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/reports/:id/assignments'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/work_team').assignReportValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/work_team').assignReportValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['assignReport']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['assignReport']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.work_teams.assignment_history': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/reports/:id/assignments'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['assignmentHistory']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['assignmentHistory']>>>
+    }
+  }
+  'admin.work_teams.unassign_report': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/admin/reports/:id/assignment'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/work_team').unassignReportValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/work_team').unassignReportValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['unassignReport']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['unassignReport']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.work_teams.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/teams'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/work_team').listWorkTeamsValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.work_teams.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/teams'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/work_team').createWorkTeamValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/work_team').createWorkTeamValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.work_teams.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/teams/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['show']>>>
+    }
+  }
+  'admin.work_teams.update': {
+    methods: ["PATCH"]
+    pattern: '/api/v1/admin/teams/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/work_team').updateWorkTeamValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/work_team').updateWorkTeamValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.work_teams.update_status': {
+    methods: ["PATCH"]
+    pattern: '/api/v1/admin/teams/:id/status'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/work_team').updateWorkTeamStatusValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/work_team').updateWorkTeamStatusValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['updateStatus']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['updateStatus']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.work_teams.update_members': {
+    methods: ["PUT"]
+    pattern: '/api/v1/admin/teams/:id/members'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/work_team').updateWorkTeamMembersValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/work_team').updateWorkTeamMembersValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['updateMembers']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/work_teams_controller').default['updateMembers']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.dependencies.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/admin/dependencies'

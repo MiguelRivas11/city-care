@@ -18,6 +18,16 @@ export const permissions = [
   'users.update',
   'users.status',
   'users.reset_password',
+  'reports.list',
+  'reports.read',
+  'reports.status',
+  'reports.assign',
+  'teams.list',
+  'teams.read',
+  'teams.create',
+  'teams.update',
+  'teams.status',
+  'teams.members',
 ] as const
 
 export type Permission = (typeof permissions)[number]
@@ -34,6 +44,16 @@ const rolePermissions: Record<string, readonly Permission[]> = {
     'users.update',
     'users.status',
     'users.reset_password',
+    'reports.list',
+    'reports.read',
+    'reports.status',
+    'reports.assign',
+    'teams.list',
+    'teams.read',
+    'teams.create',
+    'teams.update',
+    'teams.status',
+    'teams.members',
   ],
   user: [],
 }

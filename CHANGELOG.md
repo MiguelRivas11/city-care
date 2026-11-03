@@ -2,6 +2,68 @@
 
 Los cambios importantes de City Care se documentan en este archivo.
 
+## En desarrollo - Etapa 3.4
+
+### Agregado
+
+- Catálogo autenticado de categorías activas para el formulario Flutter.
+- Seeder opcional de ciudadano de prueba sin contraseñas dentro del código fuente.
+- Equipos de trabajo asociados obligatoriamente a una dependencia activa.
+- Líder e integrantes activos, validados dentro de la misma dependencia y sin duplicados.
+- Alta, listado, detalle, edición, baja lógica y reemplazo de integrantes de equipos.
+- Asignación y reasignación de incidencias con prioridad, fecha límite y observaciones.
+- Historial completo de asignaciones, retiros, responsables y motivos.
+- Restricción transaccional para mantener una sola asignación activa por reporte.
+- Permisos específicos para equipos y asignación de reportes.
+- Nueve operaciones nuevas en OpenAPI y el cliente Orval.
+
+### Seguridad e integridad
+
+- El administrador de dependencia solo administra equipos y reportes de su ámbito.
+- No es posible mezclar integrantes, equipos o reportes de dependencias diferentes.
+- Un equipo con incidencias activas no puede desactivarse.
+- Las reasignaciones conservan el registro anterior en lugar de sobrescribirlo.
+
+### Validación
+
+- Suite completa de 64 pruebas, typecheck, OpenAPI y Orval aprobados.
+- Quince migraciones aplicadas y treinta y un endpoints registrados.
+
+## En desarrollo - Etapa 3.3
+
+### Agregado
+
+- Listado paginado de reportes propios con búsqueda y filtros por estado, categoría y fechas.
+- Consulta de detalle con evidencia firmada e historial completo de estados.
+- Listado y detalle administrativo con alcance global o limitado por dependencia.
+- Cambios controlados entre `pending`, `in_progress` y `resolved`.
+- Observación obligatoria al retroceder o reabrir una incidencia.
+- Tabla `report_status_histories` con actor, origen, observación y fecha de cada movimiento.
+- Permisos `reports.list`, `reports.read` y `reports.status`.
+- Cinco operaciones nuevas en OpenAPI y el cliente Orval.
+
+### Validación
+
+- Suite completa de 57 pruebas, typecheck, lint, build, OpenAPI y Orval aprobados.
+- Doce migraciones aplicadas y veintidós endpoints registrados.
+
+## En desarrollo - Etapa 3.2
+
+### Agregado
+
+- Cliente S3 compatible con MinIO y configuración validada mediante variables de entorno.
+- Almacenamiento de fotografías en el bucket privado `city-care`.
+- URL firmada temporal en `fotoUrl`, compatible con Android Emulator mediante `10.0.2.2`.
+- Eliminación del archivo de preparación después de transferirlo.
+- Compensación automática en MinIO cuando falla la transacción de MySQL.
+- Error uniforme `E_REPORT_STORAGE_UNAVAILABLE` con estado HTTP 503.
+- Configuración aislada para pruebas funcionales sin dependencia de servicios externos.
+
+### Validación
+
+- Conexión real verificada mediante subida, consulta, firma y eliminación de un objeto temporal.
+- Suite completa de 52 pruebas, typecheck, lint, build, OpenAPI y Orval aprobados.
+
 ## En desarrollo - Etapa 3.1
 
 ### Agregado

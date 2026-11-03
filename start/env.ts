@@ -23,6 +23,9 @@ export default await Env.create(new URL('../', import.meta.url), {
   APP_URL: Env.schema.string({ format: 'url', tld: false }),
   ACCESS_TOKEN_EXPIRES_IN: Env.schema.string.optional(),
   ADMIN_INITIAL_PASSWORD: Env.schema.string.optional(),
+  DEPENDENCY_ADMIN_INITIAL_PASSWORD: Env.schema.string.optional(),
+  CITIZEN_INITIAL_EMAIL: Env.schema.string.optional(),
+  CITIZEN_INITIAL_PASSWORD: Env.schema.string.optional(),
 
   // Session
   SESSION_DRIVER: Env.schema.enum(['cookie', 'memory', 'database'] as const),
@@ -44,4 +47,19 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
   LIMITER_STORE: Env.schema.enum(['memory'] as const),
+
+  /*
+  |----------------------------------------------------------
+  | MinIO object storage
+  |----------------------------------------------------------
+  */
+  MINIO_ENDPOINT: Env.schema.string({ format: 'host' }),
+  MINIO_PUBLIC_ENDPOINT: Env.schema.string.optional(),
+  MINIO_PORT: Env.schema.number(),
+  MINIO_USE_SSL: Env.schema.boolean(),
+  MINIO_ACCESS_KEY: Env.schema.secret(),
+  MINIO_SECRET_KEY: Env.schema.secret(),
+  MINIO_BUCKET: Env.schema.string(),
+  MINIO_REGION: Env.schema.string(),
+  MINIO_SIGNED_URL_EXPIRES_IN: Env.schema.number(),
 })

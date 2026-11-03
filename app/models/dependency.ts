@@ -4,6 +4,7 @@ import type { HasMany } from '@adonisjs/lucid/types/relations'
 import User from '#models/user'
 import ReportCategory from '#models/report_category'
 import Report from '#models/report'
+import WorkTeam from '#models/work_team'
 
 export default class Dependency extends DependencySchema {
   @hasMany(() => User)
@@ -14,4 +15,7 @@ export default class Dependency extends DependencySchema {
 
   @hasMany(() => Report)
   declare reports: HasMany<typeof Report>
+
+  @hasMany(() => WorkTeam)
+  declare workTeams: HasMany<typeof WorkTeam>
 }

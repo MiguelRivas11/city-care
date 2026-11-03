@@ -308,11 +308,95 @@ export interface ApiErrorResponse {
 }
 
 /**
+ * ReportCategoryPublic (Interface)
+ */
+export interface ReportCategoryPublic {
+  id: number
+  codigo: string
+  nombre: string
+  descripcion?: string
+  requiereDescripcion: boolean
+  dependenciaId?: number
+}
+
+/**
+ * ReportCategoriesListApiResponse (Interface)
+ */
+export interface ReportCategoriesListApiResponse {
+  data: ReportCategoryPublic[]
+}
+
+/**
+ * ReportDependencyPublic (Interface)
+ */
+export interface ReportDependencyPublic {
+  id: number
+  nombre: string
+}
+
+/**
+ * ReportStatusActorPublic (Interface)
+ */
+export interface ReportStatusActorPublic {
+  id: number
+  nombre: string
+}
+
+/**
+ * ReportAssignedTeamPublic (Interface)
+ */
+export interface ReportAssignedTeamPublic {
+  id: number
+  nombre: string
+  dependenciaId: number
+  lider?: ReportStatusActorPublic
+}
+
+/**
+ * ReportCurrentAssignmentPublic (Interface)
+ */
+export interface ReportCurrentAssignmentPublic {
+  id: number
+  prioridad: string
+  observaciones?: string
+  asignadoEn: string
+  fechaLimite?: string
+  equipo: ReportAssignedTeamPublic
+}
+
+/**
+ * ReportCitizenPublic (Interface)
+ */
+export interface ReportCitizenPublic {
+  id: number
+  nombre: string
+  email: string
+}
+
+/**
+ * ReportStatusHistoryPublic (Interface)
+ */
+export interface ReportStatusHistoryPublic {
+  id: number
+  estadoAnteriorCodigo?: string
+  estadoAnterior?: string
+  estadoNuevoCodigo: string
+  estadoNuevo: string
+  origen: string
+  observacion?: string
+  cambiadoPor?: ReportStatusActorPublic
+  creadoEn: string
+}
+
+/**
  * ReportPublic (Interface)
  */
 export interface ReportPublic {
   id: number
+  version: number
   folio: string
+  categoriaId: number
+  categoriaCodigo: string
   categoria: string
   descripcion?: string
   direccion?: string
@@ -320,10 +404,240 @@ export interface ReportPublic {
   longitud: number
   precisionUbicacion?: number
   origenUbicacion: string
+  estadoCodigo: string
   estado: string
-  fotoUrl?: string
+  fotoUrl: string
+  fotoUrlExpira: boolean
   estadoEvidencia: string
+  dependencia?: ReportDependencyPublic
+  asignacionActual?: ReportCurrentAssignmentPublic
+  ciudadano?: ReportCitizenPublic
+  historial?: ReportStatusHistoryPublic[]
   creadoEn: string
+  actualizadoEn: string
+}
+
+/**
+ * ReportsListApiResponse (Interface)
+ */
+export interface ReportsListApiResponse {
+  data: ReportPublic[]
+  meta: PaginationMeta
+}
+
+/**
+ * ReportDetailApiResponse (Interface)
+ */
+export interface ReportDetailApiResponse {
+  id: number
+  version: number
+  folio: string
+  categoriaId: number
+  categoriaCodigo: string
+  categoria: string
+  descripcion?: string
+  direccion?: string
+  latitud: number
+  longitud: number
+  precisionUbicacion?: number
+  origenUbicacion: string
+  estadoCodigo: string
+  estado: string
+  fotoUrl: string
+  fotoUrlExpira: boolean
+  estadoEvidencia: string
+  dependencia?: ReportDependencyPublic
+  asignacionActual?: ReportCurrentAssignmentPublic
+  ciudadano?: ReportCitizenPublic
+  historial: ReportStatusHistoryPublic[]
+  creadoEn: string
+  actualizadoEn: string
+}
+
+/**
+ * UpdateReportStatusRequest (Interface)
+ */
+export interface UpdateReportStatusRequest {
+  status: string
+  expectedVersion: number
+  note?: string
+}
+
+/**
+ * ReportDuplicateCandidateSummary (Interface)
+ */
+export interface ReportDuplicateCandidateSummary {
+  id: number
+  folio: string
+  categoria: string
+  estadoCodigo: string
+  latitud: number
+  longitud: number
+  direccion?: string
+  creadoEn: string
+}
+
+/**
+ * ReportDuplicateReviewPublic (Interface)
+ */
+export interface ReportDuplicateReviewPublic {
+  id: number
+  estado: string
+  distanciaMetros: number
+  detectadoEn: string
+  revisadoEn?: string
+  observacion?: string
+  revisadoPor?: ReportStatusActorPublic
+  reporte: ReportDuplicateCandidateSummary
+}
+
+/**
+ * ReportDuplicateRulesPublic (Interface)
+ */
+export interface ReportDuplicateRulesPublic {
+  distanciaMaximaMetros: number
+  ventanaMaximaHoras: number
+}
+
+/**
+ * ReportDuplicateReviewsApiResponse (Interface)
+ */
+export interface ReportDuplicateReviewsApiResponse {
+  data: ReportDuplicateReviewPublic[]
+  reglas: ReportDuplicateRulesPublic
+}
+
+/**
+ * ReviewReportDuplicateRequest (Interface)
+ */
+export interface ReviewReportDuplicateRequest {
+  status: string
+  note?: string
+}
+
+/**
+ * WorkTeamUserPublic (Interface)
+ */
+export interface WorkTeamUserPublic {
+  id: number
+  nombre: string
+  email: string
+  puesto?: string
+}
+
+/**
+ * WorkTeamPublic (Interface)
+ */
+export interface WorkTeamPublic {
+  id: number
+  dependencia: ReportDependencyPublic
+  nombre: string
+  descripcion?: string
+  activo: boolean
+  lider?: WorkTeamUserPublic
+  integrantes: WorkTeamUserPublic[]
+  creadoEn: string
+  actualizadoEn: string
+}
+
+/**
+ * WorkTeamsListApiResponse (Interface)
+ */
+export interface WorkTeamsListApiResponse {
+  data: WorkTeamPublic[]
+  meta: PaginationMeta
+}
+
+/**
+ * WorkTeamDetailApiResponse (Interface)
+ */
+export interface WorkTeamDetailApiResponse {
+  data: WorkTeamPublic
+}
+
+/**
+ * CreateWorkTeamRequest (Interface)
+ */
+export interface CreateWorkTeamRequest {
+  dependencyId: number
+  name: string
+  description?: string
+  leaderUserId: number
+  memberUserIds: number[]
+}
+
+/**
+ * UpdateWorkTeamRequest (Interface)
+ */
+export interface UpdateWorkTeamRequest {
+  name?: string
+  description?: string
+  leaderUserId?: number
+}
+
+/**
+ * UpdateWorkTeamStatusRequest (Interface)
+ */
+export interface UpdateWorkTeamStatusRequest {
+  isActive: boolean
+}
+
+/**
+ * UpdateWorkTeamMembersRequest (Interface)
+ */
+export interface UpdateWorkTeamMembersRequest {
+  memberUserIds: number[]
+}
+
+/**
+ * AssignReportRequest (Interface)
+ */
+export interface AssignReportRequest {
+  workTeamId: number
+  expectedVersion: number
+  priority: string
+  dueAt?: string
+  observations?: string
+}
+
+/**
+ * UnassignReportRequest (Interface)
+ */
+export interface UnassignReportRequest {
+  expectedVersion: number
+  note: string
+}
+
+/**
+ * ReportAssignmentPublic (Interface)
+ */
+export interface ReportAssignmentPublic {
+  id: number
+  reporteId: number
+  equipo: WorkTeamPublic
+  prioridad: string
+  observaciones?: string
+  asignadoEn: string
+  fechaLimite?: string
+  asignadoPor?: WorkTeamUserPublic
+  activa: boolean
+  retiradaEn?: string
+  motivoRetiro?: string
+  retiradaPor?: WorkTeamUserPublic
+}
+
+/**
+ * ReportAssignmentApiResponse (Interface)
+ */
+export interface ReportAssignmentApiResponse {
+  data: ReportAssignmentPublic
+}
+
+/**
+ * ReportAssignmentsListApiResponse (Interface)
+ */
+export interface ReportAssignmentsListApiResponse {
+  data: ReportAssignmentPublic[]
 }
 
 /**
@@ -334,6 +648,34 @@ export interface ReportEvidence {
 }
 
 /**
+ * ReportStatusHistory (Model)
+ */
+export interface ReportStatusHistory {
+  report?: Report
+  changedBy?: User
+}
+
+/**
+ * WorkTeam (Model)
+ */
+export interface WorkTeam {
+  dependency?: Dependency
+  leader?: User
+  members?: User[]
+  assignments?: ReportAssignment[]
+}
+
+/**
+ * ReportAssignment (Model)
+ */
+export interface ReportAssignment {
+  report?: Report
+  workTeam?: WorkTeam
+  assignedBy?: User
+  unassignedBy?: User
+}
+
+/**
  * Report (Model)
  */
 export interface Report {
@@ -341,6 +683,9 @@ export interface Report {
   category?: ReportCategory
   dependency?: Dependency
   evidences?: ReportEvidence[]
+  statusHistory?: ReportStatusHistory[]
+  assignments?: ReportAssignment[]
+  currentAssignment?: ReportAssignment
 }
 
 /**
@@ -358,6 +703,7 @@ export interface Dependency {
   users?: User[]
   reportCategories?: ReportCategory[]
   reports?: Report[]
+  workTeams?: WorkTeam[]
 }
 
 /**
@@ -375,6 +721,8 @@ export interface User {
   role?: Role
   credential?: Credential
   reports?: Report[]
+  reportStatusChanges?: ReportStatusHistory[]
+  ledWorkTeams?: WorkTeam[]
 }
 
 /**
@@ -382,6 +730,26 @@ export interface User {
  */
 export interface Credential {
   user?: User
+}
+
+/**
+ * ReportDuplicateReview (Model)
+ */
+export interface ReportDuplicateReview {
+  id?: number
+  reportId?: number
+  candidateReportId?: number
+  status?: string
+  distanceMeters?: string
+  detectedAt?: string
+  reviewedByUserId?: number
+  reviewedAt?: string
+  note?: string
+  createdAt?: string
+  updatedAt?: string
+  report?: Report
+  candidateReport?: Report
+  reviewedBy?: User
 }
 
 /**
@@ -469,6 +837,63 @@ export interface CreateReportValidator {
   /** @maxLength 20 */
   origenUbicacion: string
   foto: number
+}
+
+/**
+ * listReportsValidator (Validator)
+ */
+export interface ListReportsValidator {
+  page?: number
+  /**
+   * @minimum 1
+   * @maximum 100
+   */
+  perPage?: number
+  /** @maxLength 150 */
+  search?: string
+  /** @maxLength 20 */
+  status?: string
+  categoryId?: number
+  dependencyId?: number
+  userId?: number
+  /** @pattern /^\d{4}-\d{2}-\d{2}$/ */
+  from?: string
+  /** @pattern /^\d{4}-\d{2}-\d{2}$/ */
+  to?: string
+}
+
+export type ReviewReportDuplicateValidatorStatus =
+  (typeof ReviewReportDuplicateValidatorStatus)[keyof typeof ReviewReportDuplicateValidatorStatus]
+
+export const ReviewReportDuplicateValidatorStatus = {
+  confirmed: 'confirmed',
+  dismissed: 'dismissed',
+} as const
+
+/**
+ * reviewReportDuplicateValidator (Validator)
+ */
+export interface ReviewReportDuplicateValidator {
+  status: ReviewReportDuplicateValidatorStatus
+  /**
+   * @minLength 3
+   * @maxLength 1000
+   */
+  note?: string
+}
+
+/**
+ * updateReportStatusValidator (Validator)
+ */
+export interface UpdateReportStatusValidator {
+  /** @maxLength 20 */
+  status: string
+  expectedVersion: number
+  /**
+   * @minLength 3
+   * @maxLength 1000
+   */
+  note?: string
 }
 
 /**
@@ -580,6 +1005,103 @@ export interface UpdateUserValidator {
 }
 
 /**
+ * assignReportValidator (Validator)
+ */
+export interface AssignReportValidator {
+  workTeamId: number
+  expectedVersion: number
+  /** @maxLength 20 */
+  priority: string
+  /** @maxLength 40 */
+  dueAt?: string
+  /**
+   * @minLength 3
+   * @maxLength 2000
+   */
+  observations?: string
+}
+
+/**
+ * createWorkTeamValidator (Validator)
+ */
+export interface CreateWorkTeamValidator {
+  dependencyId: number
+  /**
+   * @minLength 2
+   * @maxLength 150
+   */
+  name: string
+  /** @maxLength 1000 */
+  description?: string
+  leaderUserId: number
+  /**
+   * @items.minimum 1
+   * @items.maximum 100
+   */
+  memberUserIds: number[]
+}
+
+/**
+ * listWorkTeamsValidator (Validator)
+ */
+export interface ListWorkTeamsValidator {
+  page?: number
+  /**
+   * @minimum 1
+   * @maximum 100
+   */
+  perPage?: number
+  /** @maxLength 150 */
+  search?: string
+  dependencyId?: number
+  isActive?: boolean
+}
+
+/**
+ * unassignReportValidator (Validator)
+ */
+export interface UnassignReportValidator {
+  expectedVersion: number
+  /**
+   * @minLength 3
+   * @maxLength 2000
+   */
+  note: string
+}
+
+/**
+ * updateWorkTeamMembersValidator (Validator)
+ */
+export interface UpdateWorkTeamMembersValidator {
+  /**
+   * @items.minimum 1
+   * @items.maximum 100
+   */
+  memberUserIds: number[]
+}
+
+/**
+ * updateWorkTeamStatusValidator (Validator)
+ */
+export interface UpdateWorkTeamStatusValidator {
+  isActive: boolean
+}
+
+/**
+ * updateWorkTeamValidator (Validator)
+ */
+export interface UpdateWorkTeamValidator {
+  /**
+   * @minLength 2
+   * @maxLength 150
+   */
+  name?: string
+  /** @maxLength 1000 */
+  description?: string
+  leaderUserId?: number
+}
+
+/**
  * Access token is missing or invalid
  */
 export type ForbiddenResponse = void
@@ -624,6 +1146,99 @@ export type CreateReportBody = {
   precisionUbicacion?: number | null
   origenUbicacion: CreateReportBodyOrigenUbicacion
   foto: Blob | File
+}
+
+export type ListMyReportsParams = {
+  /**
+   * Número de página
+   */
+  page?: number
+  /**
+   * Registros por página, máximo 100
+   */
+  perPage?: number
+  /**
+   * Folio, descripción o dirección
+   */
+  search?: string
+  /**
+   * pending, in_progress o resolved
+   */
+  status?: string
+  /**
+   * Identificador de categoría
+   */
+  categoryId?: number
+  /**
+   * Fecha inicial YYYY-MM-DD
+   */
+  from?: string
+  /**
+   * Fecha final YYYY-MM-DD
+   */
+  to?: string
+}
+
+export type ListAdminReportsParams = {
+  /**
+   * Número de página
+   */
+  page?: number
+  /**
+   * Registros por página, máximo 100
+   */
+  perPage?: number
+  /**
+   * Folio, descripción o dirección
+   */
+  search?: string
+  /**
+   * pending, in_progress o resolved
+   */
+  status?: string
+  /**
+   * Identificador de categoría
+   */
+  categoryId?: number
+  /**
+   * Identificador de dependencia
+   */
+  dependencyId?: number
+  /**
+   * Identificador del ciudadano
+   */
+  userId?: number
+  /**
+   * Fecha inicial YYYY-MM-DD
+   */
+  from?: string
+  /**
+   * Fecha final YYYY-MM-DD
+   */
+  to?: string
+}
+
+export type ListWorkTeamsParams = {
+  /**
+   * Número de página
+   */
+  page?: number
+  /**
+   * Registros por página
+   */
+  perPage?: number
+  /**
+   * Nombre o descripción
+   */
+  search?: string
+  /**
+   * Dependencia
+   */
+  dependencyId?: number
+  /**
+   * Estado del equipo
+   */
+  isActive?: boolean
 }
 
 export type ListDependenciesParams = {
@@ -673,7 +1288,7 @@ export type ListUsersParams = {
 }
 
 export const getLoginUrl = () => {
-  return `http://localhost:3333/api/v1/auth/login`
+  return `http://192.168.100.228:3333/api/v1/auth/login`
 }
 
 /**
@@ -726,7 +1341,7 @@ export const login = async (
 }
 
 export const getGetProfileUrl = () => {
-  return `http://localhost:3333/api/v1/account/profile`
+  return `http://192.168.100.228:3333/api/v1/account/profile`
 }
 
 /**
@@ -755,7 +1370,7 @@ export const getProfile = async (options?: RequestInit): Promise<ProfileApiRespo
 }
 
 export const getLogoutUrl = () => {
-  return `http://localhost:3333/api/v1/account/logout`
+  return `http://192.168.100.228:3333/api/v1/account/logout`
 }
 
 /**
@@ -784,7 +1399,7 @@ export const logout = async (options?: RequestInit): Promise<LogoutApiResponse> 
 }
 
 export const getCreateReportUrl = () => {
-  return `http://localhost:3333/api/v1/reports`
+  return `http://192.168.100.228:3333/api/v1/reports`
 }
 
 /**
@@ -834,6 +1449,616 @@ export const createReport = async (
   return data
 }
 
+export const getListMyReportsUrl = (params?: ListMyReportsParams) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `http://192.168.100.228:3333/api/v1/reports?${stringifiedParams}`
+    : `http://192.168.100.228:3333/api/v1/reports`
+}
+
+/**
+ * Returns **200** (OK) as **application/json**
+ *
+ *  _app/controllers/report_queries_controller.ts_ - **mine**
+ * @summary Consultar mis reportes (mine)
+ */
+export const listMyReports = async (
+  params?: ListMyReportsParams,
+  options?: RequestInit
+): Promise<ReportsListApiResponse> => {
+  const res = await fetch(getListMyReportsUrl(params), {
+    ...options,
+    method: 'GET',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: ReportsListApiResponse; status?: number } =
+      new globalThis.Error()
+    const data: ReportsListApiResponse = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: ReportsListApiResponse = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getListReportCategoriesUrl = () => {
+  return `http://192.168.100.228:3333/api/v1/report-categories`
+}
+
+/**
+ * Returns **200** (OK) as **application/json**
+ *
+ *  _app/controllers/report_categories_controller.ts_ - **index**
+ * @summary Consultar categorías disponibles para reportar (index)
+ */
+export const listReportCategories = async (
+  options?: RequestInit
+): Promise<ReportCategoriesListApiResponse> => {
+  const res = await fetch(getListReportCategoriesUrl(), {
+    ...options,
+    method: 'GET',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: ReportCategoriesListApiResponse; status?: number } =
+      new globalThis.Error()
+    const data: ReportCategoriesListApiResponse = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: ReportCategoriesListApiResponse = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getGetMyReportUrl = (id: number) => {
+  return `http://192.168.100.228:3333/api/v1/reports/${id}`
+}
+
+/**
+ * Returns **200** (OK) as **application/json**
+ *
+ *  _app/controllers/report_queries_controller.ts_ - **showMine**
+ * @summary Consultar el detalle de uno de mis reportes (showMine)
+ */
+export const getMyReport = async (
+  id: number,
+  options?: RequestInit
+): Promise<ReportDetailApiResponse> => {
+  const res = await fetch(getGetMyReportUrl(id), {
+    ...options,
+    method: 'GET',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: ReportDetailApiResponse; status?: number } =
+      new globalThis.Error()
+    const data: ReportDetailApiResponse = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: ReportDetailApiResponse = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getListAdminReportsUrl = (params?: ListAdminReportsParams) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `http://192.168.100.228:3333/api/v1/admin/reports?${stringifiedParams}`
+    : `http://192.168.100.228:3333/api/v1/admin/reports`
+}
+
+/**
+ * Returns **200** (OK) as **application/json**
+ *
+ *  _app/controllers/report_queries_controller.ts_ - **index**
+ * @summary Listar reportes para seguimiento administrativo (index)
+ */
+export const listAdminReports = async (
+  params?: ListAdminReportsParams,
+  options?: RequestInit
+): Promise<ReportsListApiResponse> => {
+  const res = await fetch(getListAdminReportsUrl(params), {
+    ...options,
+    method: 'GET',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: ReportsListApiResponse; status?: number } =
+      new globalThis.Error()
+    const data: ReportsListApiResponse = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: ReportsListApiResponse = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getGetAdminReportUrl = (id: number) => {
+  return `http://192.168.100.228:3333/api/v1/admin/reports/${id}`
+}
+
+/**
+ * Returns **200** (OK) as **application/json**
+ *
+ *  _app/controllers/report_queries_controller.ts_ - **show**
+ * @summary Consultar un reporte para seguimiento administrativo (show)
+ */
+export const getAdminReport = async (
+  id: number,
+  options?: RequestInit
+): Promise<ReportDetailApiResponse> => {
+  const res = await fetch(getGetAdminReportUrl(id), {
+    ...options,
+    method: 'GET',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: ReportDetailApiResponse; status?: number } =
+      new globalThis.Error()
+    const data: ReportDetailApiResponse = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: ReportDetailApiResponse = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getListPossibleReportDuplicatesUrl = (id: number) => {
+  return `http://192.168.100.228:3333/api/v1/admin/reports/${id}/possible-duplicates`
+}
+
+/**
+ * Returns **200** (OK) as **application/json**
+ *
+ *  _app/controllers/report_queries_controller.ts_ - **possibleDuplicates**
+ * @summary Consultar posibles reportes duplicados (possibleDuplicates)
+ */
+export const listPossibleReportDuplicates = async (
+  id: number,
+  options?: RequestInit
+): Promise<ReportDuplicateReviewsApiResponse> => {
+  const res = await fetch(getListPossibleReportDuplicatesUrl(id), {
+    ...options,
+    method: 'GET',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: ReportDuplicateReviewsApiResponse; status?: number } =
+      new globalThis.Error()
+    const data: ReportDuplicateReviewsApiResponse = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: ReportDuplicateReviewsApiResponse = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getReviewPossibleReportDuplicateUrl = (id: number, reviewId: number) => {
+  return `http://192.168.100.228:3333/api/v1/admin/reports/${id}/possible-duplicates/${reviewId}`
+}
+
+/**
+ * Permite confirmar que dos reportes representan la misma incidencia o descartar la coincidencia. Ningún reporte se elimina automáticamente.
+ *
+ *  _app/controllers/report_queries_controller.ts_ - **reviewPossibleDuplicate**
+ * @summary Resolver una alerta de posible duplicado (reviewPossibleDuplicate)
+ */
+export const reviewPossibleReportDuplicate = async (
+  id: number,
+  reviewId: number,
+  reviewReportDuplicateRequest: ReviewReportDuplicateRequest,
+  options?: RequestInit
+): Promise<ReportDuplicateReviewsApiResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit['headers']>
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {}
+    if (h instanceof Headers) return Object.fromEntries(h.entries())
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string]
+        )
+      )
+    }
+    const headers: Record<string, string | readonly string[]> = {}
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value
+    }
+    return headers
+  }
+  const res = await fetch(getReviewPossibleReportDuplicateUrl(id, reviewId), {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(reviewReportDuplicateRequest),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: ReportDuplicateReviewsApiResponse; status?: number } =
+      new globalThis.Error()
+    const data: ReportDuplicateReviewsApiResponse = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: ReportDuplicateReviewsApiResponse = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getUpdateReportStatusUrl = (id: number) => {
+  return `http://192.168.100.228:3333/api/v1/admin/reports/${id}/status`
+}
+
+/**
+ * Permite pending a in_progress, in_progress a pending o resolved, y resolved a in_progress. Retroceder o reabrir exige observación.
+ *
+ *  _app/controllers/report_queries_controller.ts_ - **updateStatus**
+ * @summary Cambiar controladamente el estado de un reporte (updateStatus)
+ */
+export const updateReportStatus = async (
+  id: number,
+  updateReportStatusRequest: UpdateReportStatusRequest,
+  options?: RequestInit
+): Promise<ReportDetailApiResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit['headers']>
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {}
+    if (h instanceof Headers) return Object.fromEntries(h.entries())
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string]
+        )
+      )
+    }
+    const headers: Record<string, string | readonly string[]> = {}
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value
+    }
+    return headers
+  }
+  const res = await fetch(getUpdateReportStatusUrl(id), {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(updateReportStatusRequest),
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: ReportDetailApiResponse; status?: number } =
+      new globalThis.Error()
+    const data: ReportDetailApiResponse = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: ReportDetailApiResponse = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getPostApiV1AdminReportsIdAssignmentsUrl = (id: string) => {
+  return `http://192.168.100.228:3333/api/v1/admin/reports/${id}/assignments`
+}
+
+/**
+ *
+ *
+ *  _app/controllers/work_teams_controller.ts_ - **assignReport**
+ * @summary  (assignReport)
+ */
+export const postApiV1AdminReportsIdAssignments = async (
+  id: string,
+  options?: RequestInit
+): Promise<unknown> => {
+  const res = await fetch(getPostApiV1AdminReportsIdAssignmentsUrl(id), {
+    ...options,
+    method: 'POST',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: unknown; status?: number } = new globalThis.Error()
+    const data: unknown = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: unknown = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getGetApiV1AdminReportsIdAssignmentsUrl = (id: string) => {
+  return `http://192.168.100.228:3333/api/v1/admin/reports/${id}/assignments`
+}
+
+/**
+ *
+ *
+ *  _app/controllers/work_teams_controller.ts_ - **assignmentHistory**
+ * @summary  (assignmentHistory)
+ */
+export const getApiV1AdminReportsIdAssignments = async (
+  id: string,
+  options?: RequestInit
+): Promise<unknown> => {
+  const res = await fetch(getGetApiV1AdminReportsIdAssignmentsUrl(id), {
+    ...options,
+    method: 'GET',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: unknown; status?: number } = new globalThis.Error()
+    const data: unknown = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: unknown = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getDeleteApiV1AdminReportsIdAssignmentUrl = (id: string) => {
+  return `http://192.168.100.228:3333/api/v1/admin/reports/${id}/assignment`
+}
+
+/**
+ *
+ *
+ *  _app/controllers/work_teams_controller.ts_ - **unassignReport**
+ * @summary  (unassignReport)
+ */
+export const deleteApiV1AdminReportsIdAssignment = async (
+  id: string,
+  options?: RequestInit
+): Promise<unknown> => {
+  const res = await fetch(getDeleteApiV1AdminReportsIdAssignmentUrl(id), {
+    ...options,
+    method: 'DELETE',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: unknown; status?: number } = new globalThis.Error()
+    const data: unknown = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: unknown = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getListWorkTeamsUrl = (params?: ListWorkTeamsParams) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  })
+
+  const stringifiedParams = normalizedParams.toString()
+
+  return stringifiedParams.length > 0
+    ? `http://192.168.100.228:3333/api/v1/admin/teams?${stringifiedParams}`
+    : `http://192.168.100.228:3333/api/v1/admin/teams`
+}
+
+/**
+ * Returns **200** (OK) as **application/json**
+ *
+ *  _app/controllers/work_teams_controller.ts_ - **index**
+ * @summary Listar equipos de trabajo (index)
+ */
+export const listWorkTeams = async (
+  params?: ListWorkTeamsParams,
+  options?: RequestInit
+): Promise<WorkTeamsListApiResponse> => {
+  const res = await fetch(getListWorkTeamsUrl(params), {
+    ...options,
+    method: 'GET',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: WorkTeamsListApiResponse; status?: number } =
+      new globalThis.Error()
+    const data: WorkTeamsListApiResponse = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: WorkTeamsListApiResponse = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getPostApiV1AdminTeamsUrl = () => {
+  return `http://192.168.100.228:3333/api/v1/admin/teams`
+}
+
+/**
+ *
+ *
+ *  _app/controllers/work_teams_controller.ts_ - **store**
+ * @summary Create admin (store)
+ */
+export const postApiV1AdminTeams = async (options?: RequestInit): Promise<unknown> => {
+  const res = await fetch(getPostApiV1AdminTeamsUrl(), {
+    ...options,
+    method: 'POST',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: unknown; status?: number } = new globalThis.Error()
+    const data: unknown = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: unknown = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getGetApiV1AdminTeamsIdUrl = (id: string) => {
+  return `http://192.168.100.228:3333/api/v1/admin/teams/${id}`
+}
+
+/**
+ *
+ *
+ *  _app/controllers/work_teams_controller.ts_ - **show**
+ * @summary Get a single instance of admin (show)
+ */
+export const getApiV1AdminTeamsId = async (id: string, options?: RequestInit): Promise<unknown> => {
+  const res = await fetch(getGetApiV1AdminTeamsIdUrl(id), {
+    ...options,
+    method: 'GET',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: unknown; status?: number } = new globalThis.Error()
+    const data: unknown = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: unknown = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getPatchApiV1AdminTeamsIdUrl = (id: string) => {
+  return `http://192.168.100.228:3333/api/v1/admin/teams/${id}`
+}
+
+/**
+ *
+ *
+ *  _app/controllers/work_teams_controller.ts_ - **update**
+ * @summary Update admin (update)
+ */
+export const patchApiV1AdminTeamsId = async (
+  id: string,
+  options?: RequestInit
+): Promise<unknown> => {
+  const res = await fetch(getPatchApiV1AdminTeamsIdUrl(id), {
+    ...options,
+    method: 'PATCH',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: unknown; status?: number } = new globalThis.Error()
+    const data: unknown = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: unknown = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getPatchApiV1AdminTeamsIdStatusUrl = (id: string) => {
+  return `http://192.168.100.228:3333/api/v1/admin/teams/${id}/status`
+}
+
+/**
+ *
+ *
+ *  _app/controllers/work_teams_controller.ts_ - **updateStatus**
+ * @summary  (updateStatus)
+ */
+export const patchApiV1AdminTeamsIdStatus = async (
+  id: string,
+  options?: RequestInit
+): Promise<unknown> => {
+  const res = await fetch(getPatchApiV1AdminTeamsIdStatusUrl(id), {
+    ...options,
+    method: 'PATCH',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: unknown; status?: number } = new globalThis.Error()
+    const data: unknown = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: unknown = body ? JSON.parse(body) : {}
+  return data
+}
+
+export const getPutApiV1AdminTeamsIdMembersUrl = (id: string) => {
+  return `http://192.168.100.228:3333/api/v1/admin/teams/${id}/members`
+}
+
+/**
+ *
+ *
+ *  _app/controllers/work_teams_controller.ts_ - **updateMembers**
+ * @summary  (updateMembers)
+ */
+export const putApiV1AdminTeamsIdMembers = async (
+  id: string,
+  options?: RequestInit
+): Promise<unknown> => {
+  const res = await fetch(getPutApiV1AdminTeamsIdMembersUrl(id), {
+    ...options,
+    method: 'PUT',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  if (!res.ok) {
+    const err: globalThis.Error & { info?: unknown; status?: number } = new globalThis.Error()
+    const data: unknown = body ? JSON.parse(body) : {}
+    err.info = data
+    err.status = res.status
+    throw err
+  }
+  const data: unknown = body ? JSON.parse(body) : {}
+  return data
+}
+
 export const getListDependenciesUrl = (params?: ListDependenciesParams) => {
   const normalizedParams = new URLSearchParams()
 
@@ -846,8 +2071,8 @@ export const getListDependenciesUrl = (params?: ListDependenciesParams) => {
   const stringifiedParams = normalizedParams.toString()
 
   return stringifiedParams.length > 0
-    ? `http://localhost:3333/api/v1/admin/dependencies?${stringifiedParams}`
-    : `http://localhost:3333/api/v1/admin/dependencies`
+    ? `http://192.168.100.228:3333/api/v1/admin/dependencies?${stringifiedParams}`
+    : `http://192.168.100.228:3333/api/v1/admin/dependencies`
 }
 
 /**
@@ -879,7 +2104,7 @@ export const listDependencies = async (
 }
 
 export const getCreateDependencyUrl = () => {
-  return `http://localhost:3333/api/v1/admin/dependencies`
+  return `http://192.168.100.228:3333/api/v1/admin/dependencies`
 }
 
 /**
@@ -932,7 +2157,7 @@ export const createDependency = async (
 }
 
 export const getGetDependencyUrl = (id: number) => {
-  return `http://localhost:3333/api/v1/admin/dependencies/${id}`
+  return `http://192.168.100.228:3333/api/v1/admin/dependencies/${id}`
 }
 
 /**
@@ -964,7 +2189,7 @@ export const getDependency = async (
 }
 
 export const getUpdateDependencyUrl = (id: number) => {
-  return `http://localhost:3333/api/v1/admin/dependencies/${id}`
+  return `http://192.168.100.228:3333/api/v1/admin/dependencies/${id}`
 }
 
 /**
@@ -1018,7 +2243,7 @@ export const updateDependency = async (
 }
 
 export const getUpdateDependencyStatusUrl = (id: number) => {
-  return `http://localhost:3333/api/v1/admin/dependencies/${id}/status`
+  return `http://192.168.100.228:3333/api/v1/admin/dependencies/${id}/status`
 }
 
 /**
@@ -1072,7 +2297,7 @@ export const updateDependencyStatus = async (
 }
 
 export const getUpdateDependencyManagersUrl = (id: number) => {
-  return `http://localhost:3333/api/v1/admin/dependencies/${id}/managers`
+  return `http://192.168.100.228:3333/api/v1/admin/dependencies/${id}/managers`
 }
 
 /**
@@ -1126,7 +2351,7 @@ export const updateDependencyManagers = async (
 }
 
 export const getListRolesUrl = () => {
-  return `http://localhost:3333/api/v1/admin/roles`
+  return `http://192.168.100.228:3333/api/v1/admin/roles`
 }
 
 /**
@@ -1166,8 +2391,8 @@ export const getListUsersUrl = (params?: ListUsersParams) => {
   const stringifiedParams = normalizedParams.toString()
 
   return stringifiedParams.length > 0
-    ? `http://localhost:3333/api/v1/admin/users?${stringifiedParams}`
-    : `http://localhost:3333/api/v1/admin/users`
+    ? `http://192.168.100.228:3333/api/v1/admin/users?${stringifiedParams}`
+    : `http://192.168.100.228:3333/api/v1/admin/users`
 }
 
 /**
@@ -1199,7 +2424,7 @@ export const listUsers = async (
 }
 
 export const getCreateUserUrl = () => {
-  return `http://localhost:3333/api/v1/admin/users`
+  return `http://192.168.100.228:3333/api/v1/admin/users`
 }
 
 /**
@@ -1252,7 +2477,7 @@ export const createUser = async (
 }
 
 export const getGetUserUrl = (id: number) => {
-  return `http://localhost:3333/api/v1/admin/users/${id}`
+  return `http://192.168.100.228:3333/api/v1/admin/users/${id}`
 }
 
 /**
@@ -1284,7 +2509,7 @@ export const getUser = async (
 }
 
 export const getUpdateUserUrl = (id: number) => {
-  return `http://localhost:3333/api/v1/admin/users/${id}`
+  return `http://192.168.100.228:3333/api/v1/admin/users/${id}`
 }
 
 /**
@@ -1338,7 +2563,7 @@ export const updateUser = async (
 }
 
 export const getUpdateUserStatusUrl = (id: number) => {
-  return `http://localhost:3333/api/v1/admin/users/${id}/status`
+  return `http://192.168.100.228:3333/api/v1/admin/users/${id}/status`
 }
 
 /**
@@ -1392,7 +2617,7 @@ export const updateUserStatus = async (
 }
 
 export const getResetUserPasswordUrl = (id: number) => {
-  return `http://localhost:3333/api/v1/admin/users/${id}/password`
+  return `http://192.168.100.228:3333/api/v1/admin/users/${id}/password`
 }
 
 /**

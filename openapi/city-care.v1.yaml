@@ -37,23 +37,23 @@ components:
         total:
           type: "number"
           nullable: false
-          example: 395
+          example: 391
         perPage:
           type: "number"
           nullable: false
-          example: 372
+          example: 666
         currentPage:
           type: "number"
           nullable: false
-          example: 858
+          example: 81
         lastPage:
           type: "number"
           nullable: false
-          example: 133
+          example: 628
         firstPage:
           type: "number"
           nullable: false
-          example: 175
+          example: 575
         firstPageUrl:
           type: "string"
           nullable: false
@@ -83,7 +83,7 @@ components:
         id:
           type: "number"
           nullable: false
-          example: 861
+          example: 766
         name:
           type: "string"
           nullable: false
@@ -125,7 +125,7 @@ components:
         id:
           type: "number"
           nullable: false
-          example: 632
+          example: 14
         name:
           type: "string"
           nullable: false
@@ -155,7 +155,7 @@ components:
         id:
           type: "number"
           nullable: false
-          example: 538
+          example: 542
         firstName:
           type: "string"
           nullable: false
@@ -222,7 +222,7 @@ components:
           items:
             type: "number"
             nullable: false
-            example: 650
+            example: 661
       required:
         - "userIds"
       description: "UpdateDependencyManagersRequest (Interface)"
@@ -232,15 +232,15 @@ components:
         id:
           type: "number"
           nullable: false
-          example: 511
+          example: 802
         dependencyId:
           type: "number"
           nullable: false
-          example: 520
+          example: 160
         roleId:
           type: "number"
           nullable: false
-          example: 644
+          example: 477
         firstName:
           type: "string"
           nullable: false
@@ -318,11 +318,11 @@ components:
         dependencyId:
           type: "number"
           nullable: false
-          example: 953
+          example: 747
         roleId:
           type: "number"
           nullable: false
-          example: 515
+          example: 449
         firstName:
           type: "string"
           nullable: false
@@ -370,11 +370,11 @@ components:
         dependencyId:
           type: "number"
           nullable: false
-          example: 661
+          example: 170
         roleId:
           type: "number"
           nullable: false
-          example: 674
+          example: 835
         firstName:
           type: "string"
           nullable: false
@@ -631,14 +631,70 @@ components:
       required:
         - "error"
       description: "ApiErrorResponse (Interface)"
+    ReportCategoryPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 625
+        codigo:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        nombre:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        descripcion:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        requiereDescripcion:
+          type: "boolean"
+          nullable: false
+          example: true
+        dependenciaId:
+          type: "number"
+          nullable: false
+          example: 418
+      required:
+        - "id"
+        - "codigo"
+        - "nombre"
+        - "requiereDescripcion"
+      description: "ReportCategoryPublic (Interface)"
+    ReportCategoriesListApiResponse:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/ReportCategoryPublic"
+      required:
+        - "data"
+      description: "ReportCategoriesListApiResponse (Interface)"
     ReportPublic:
       type: "object"
       properties:
         id:
           type: "number"
           nullable: false
-          example: 539
+          example: 600
+        version:
+          type: "number"
+          nullable: false
+          example: 971
         folio:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        categoriaId:
+          type: "number"
+          nullable: false
+          example: 835
+        categoriaCodigo:
           type: "string"
           nullable: false
           example: "Lorem Ipsum"
@@ -657,16 +713,20 @@ components:
         latitud:
           type: "number"
           nullable: false
-          example: 889
+          example: 333
         longitud:
           type: "number"
           nullable: false
-          example: 507
+          example: 524
         precisionUbicacion:
           type: "number"
           nullable: false
-          example: 420
+          example: 221
         origenUbicacion:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        estadoCodigo:
           type: "string"
           nullable: false
           example: "Lorem Ipsum"
@@ -678,7 +738,378 @@ components:
           type: "string"
           nullable: false
           example: "Lorem Ipsum"
+        fotoUrlExpira:
+          type: "boolean"
+          nullable: false
+          example: true
         estadoEvidencia:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        dependencia:
+          nullable: false
+          $ref: "#/components/schemas/ReportDependencyPublic"
+        asignacionActual:
+          nullable: false
+          $ref: "#/components/schemas/ReportCurrentAssignmentPublic"
+        ciudadano:
+          nullable: false
+          $ref: "#/components/schemas/ReportCitizenPublic"
+        historial:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/ReportStatusHistoryPublic"
+        creadoEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        actualizadoEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "id"
+        - "version"
+        - "folio"
+        - "categoriaId"
+        - "categoriaCodigo"
+        - "categoria"
+        - "latitud"
+        - "longitud"
+        - "origenUbicacion"
+        - "estadoCodigo"
+        - "estado"
+        - "fotoUrl"
+        - "fotoUrlExpira"
+        - "estadoEvidencia"
+        - "creadoEn"
+        - "actualizadoEn"
+      description: "ReportPublic (Interface)"
+    ReportDependencyPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 315
+        nombre:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "id"
+        - "nombre"
+      description: "ReportDependencyPublic (Interface)"
+    ReportCurrentAssignmentPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 283
+        prioridad:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        observaciones:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        asignadoEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        fechaLimite:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        equipo:
+          nullable: false
+          $ref: "#/components/schemas/ReportAssignedTeamPublic"
+      required:
+        - "id"
+        - "prioridad"
+        - "asignadoEn"
+        - "equipo"
+      description: "ReportCurrentAssignmentPublic (Interface)"
+    ReportAssignedTeamPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 910
+        nombre:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        dependenciaId:
+          type: "number"
+          nullable: false
+          example: 832
+        lider:
+          nullable: false
+          $ref: "#/components/schemas/ReportStatusActorPublic"
+      required:
+        - "id"
+        - "nombre"
+        - "dependenciaId"
+      description: "ReportAssignedTeamPublic (Interface)"
+    ReportCitizenPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 183
+        nombre:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        email:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "id"
+        - "nombre"
+        - "email"
+      description: "ReportCitizenPublic (Interface)"
+    ReportStatusActorPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 175
+        nombre:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "id"
+        - "nombre"
+      description: "ReportStatusActorPublic (Interface)"
+    ReportStatusHistoryPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 324
+        estadoAnteriorCodigo:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        estadoAnterior:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        estadoNuevoCodigo:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        estadoNuevo:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        origen:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        observacion:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        cambiadoPor:
+          nullable: false
+          $ref: "#/components/schemas/ReportStatusActorPublic"
+        creadoEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "id"
+        - "estadoNuevoCodigo"
+        - "estadoNuevo"
+        - "origen"
+        - "creadoEn"
+      description: "ReportStatusHistoryPublic (Interface)"
+    ReportsListApiResponse:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/ReportPublic"
+        meta:
+          nullable: false
+          $ref: "#/components/schemas/PaginationMeta"
+      required:
+        - "data"
+        - "meta"
+      description: "ReportsListApiResponse (Interface)"
+    ReportDetailApiResponse:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 22
+        version:
+          type: "number"
+          nullable: false
+          example: 794
+        folio:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        categoriaId:
+          type: "number"
+          nullable: false
+          example: 457
+        categoriaCodigo:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        categoria:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        descripcion:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        direccion:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        latitud:
+          type: "number"
+          nullable: false
+          example: 575
+        longitud:
+          type: "number"
+          nullable: false
+          example: 497
+        precisionUbicacion:
+          type: "number"
+          nullable: false
+          example: 193
+        origenUbicacion:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        estadoCodigo:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        estado:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        fotoUrl:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        fotoUrlExpira:
+          type: "boolean"
+          nullable: false
+          example: true
+        estadoEvidencia:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        dependencia:
+          nullable: false
+          $ref: "#/components/schemas/ReportDependencyPublic"
+        asignacionActual:
+          nullable: false
+          $ref: "#/components/schemas/ReportCurrentAssignmentPublic"
+        ciudadano:
+          nullable: false
+          $ref: "#/components/schemas/ReportCitizenPublic"
+        historial:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/ReportStatusHistoryPublic"
+        creadoEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        actualizadoEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "id"
+        - "version"
+        - "folio"
+        - "categoriaId"
+        - "categoriaCodigo"
+        - "categoria"
+        - "latitud"
+        - "longitud"
+        - "origenUbicacion"
+        - "estadoCodigo"
+        - "estado"
+        - "fotoUrl"
+        - "fotoUrlExpira"
+        - "estadoEvidencia"
+        - "historial"
+        - "creadoEn"
+        - "actualizadoEn"
+      description: "ReportDetailApiResponse (Interface)"
+    UpdateReportStatusRequest:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        expectedVersion:
+          type: "number"
+          nullable: false
+          example: 254
+        note:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "status"
+        - "expectedVersion"
+      description: "UpdateReportStatusRequest (Interface)"
+    ReportDuplicateCandidateSummary:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 496
+        folio:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        categoria:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        estadoCodigo:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        latitud:
+          type: "number"
+          nullable: false
+          example: 686
+        longitud:
+          type: "number"
+          nullable: false
+          example: 751
+        direccion:
           type: "string"
           nullable: false
           example: "Lorem Ipsum"
@@ -690,13 +1121,378 @@ components:
         - "id"
         - "folio"
         - "categoria"
+        - "estadoCodigo"
         - "latitud"
         - "longitud"
-        - "origenUbicacion"
-        - "estado"
-        - "estadoEvidencia"
         - "creadoEn"
-      description: "ReportPublic (Interface)"
+      description: "ReportDuplicateCandidateSummary (Interface)"
+    ReportDuplicateReviewPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 65
+        estado:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        distanciaMetros:
+          type: "number"
+          nullable: false
+          example: 872
+        detectadoEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        revisadoEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        observacion:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        revisadoPor:
+          nullable: false
+          $ref: "#/components/schemas/ReportStatusActorPublic"
+        reporte:
+          nullable: false
+          $ref: "#/components/schemas/ReportDuplicateCandidateSummary"
+      required:
+        - "id"
+        - "estado"
+        - "distanciaMetros"
+        - "detectadoEn"
+        - "reporte"
+      description: "ReportDuplicateReviewPublic (Interface)"
+    ReportDuplicateReviewsApiResponse:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/ReportDuplicateReviewPublic"
+        reglas:
+          nullable: false
+          $ref: "#/components/schemas/ReportDuplicateRulesPublic"
+      required:
+        - "data"
+        - "reglas"
+      description: "ReportDuplicateReviewsApiResponse (Interface)"
+    ReportDuplicateRulesPublic:
+      type: "object"
+      properties:
+        distanciaMaximaMetros:
+          type: "number"
+          nullable: false
+          example: 388
+        ventanaMaximaHoras:
+          type: "number"
+          nullable: false
+          example: 962
+      required:
+        - "distanciaMaximaMetros"
+        - "ventanaMaximaHoras"
+      description: "ReportDuplicateRulesPublic (Interface)"
+    ReviewReportDuplicateRequest:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        note:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "status"
+      description: "ReviewReportDuplicateRequest (Interface)"
+    WorkTeamUserPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 673
+        nombre:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        email:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        puesto:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "id"
+        - "nombre"
+        - "email"
+      description: "WorkTeamUserPublic (Interface)"
+    WorkTeamPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 892
+        dependencia:
+          nullable: false
+          $ref: "#/components/schemas/ReportDependencyPublic"
+        nombre:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        descripcion:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        activo:
+          type: "boolean"
+          nullable: false
+          example: true
+        lider:
+          nullable: false
+          $ref: "#/components/schemas/WorkTeamUserPublic"
+        integrantes:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/WorkTeamUserPublic"
+        creadoEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        actualizadoEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "id"
+        - "dependencia"
+        - "nombre"
+        - "activo"
+        - "integrantes"
+        - "creadoEn"
+        - "actualizadoEn"
+      description: "WorkTeamPublic (Interface)"
+    WorkTeamsListApiResponse:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/WorkTeamPublic"
+        meta:
+          nullable: false
+          $ref: "#/components/schemas/PaginationMeta"
+      required:
+        - "data"
+        - "meta"
+      description: "WorkTeamsListApiResponse (Interface)"
+    WorkTeamDetailApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/WorkTeamPublic"
+      required:
+        - "data"
+      description: "WorkTeamDetailApiResponse (Interface)"
+    CreateWorkTeamRequest:
+      type: "object"
+      properties:
+        dependencyId:
+          type: "number"
+          nullable: false
+          example: 728
+        name:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        description:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        leaderUserId:
+          type: "number"
+          nullable: false
+          example: 159
+        memberUserIds:
+          type: "array"
+          items:
+            type: "number"
+            nullable: false
+            example: 220
+      required:
+        - "dependencyId"
+        - "name"
+        - "leaderUserId"
+        - "memberUserIds"
+      description: "CreateWorkTeamRequest (Interface)"
+    UpdateWorkTeamRequest:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        description:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        leaderUserId:
+          type: "number"
+          nullable: false
+          example: 783
+      description: "UpdateWorkTeamRequest (Interface)"
+    UpdateWorkTeamStatusRequest:
+      type: "object"
+      properties:
+        isActive:
+          type: "boolean"
+          nullable: false
+          example: true
+      required:
+        - "isActive"
+      description: "UpdateWorkTeamStatusRequest (Interface)"
+    UpdateWorkTeamMembersRequest:
+      type: "object"
+      properties:
+        memberUserIds:
+          type: "array"
+          items:
+            type: "number"
+            nullable: false
+            example: 748
+      required:
+        - "memberUserIds"
+      description: "UpdateWorkTeamMembersRequest (Interface)"
+    AssignReportRequest:
+      type: "object"
+      properties:
+        workTeamId:
+          type: "number"
+          nullable: false
+          example: 43
+        expectedVersion:
+          type: "number"
+          nullable: false
+          example: 762
+        priority:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        dueAt:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        observations:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "workTeamId"
+        - "expectedVersion"
+        - "priority"
+      description: "AssignReportRequest (Interface)"
+    UnassignReportRequest:
+      type: "object"
+      properties:
+        expectedVersion:
+          type: "number"
+          nullable: false
+          example: 985
+        note:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+      required:
+        - "expectedVersion"
+        - "note"
+      description: "UnassignReportRequest (Interface)"
+    ReportAssignmentPublic:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          nullable: false
+          example: 807
+        reporteId:
+          type: "number"
+          nullable: false
+          example: 174
+        equipo:
+          nullable: false
+          $ref: "#/components/schemas/WorkTeamPublic"
+        prioridad:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        observaciones:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        asignadoEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        fechaLimite:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        asignadoPor:
+          nullable: false
+          $ref: "#/components/schemas/WorkTeamUserPublic"
+        activa:
+          type: "boolean"
+          nullable: false
+          example: true
+        retiradaEn:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        motivoRetiro:
+          type: "string"
+          nullable: false
+          example: "Lorem Ipsum"
+        retiradaPor:
+          nullable: false
+          $ref: "#/components/schemas/WorkTeamUserPublic"
+      required:
+        - "id"
+        - "reporteId"
+        - "equipo"
+        - "prioridad"
+        - "asignadoEn"
+        - "activa"
+      description: "ReportAssignmentPublic (Interface)"
+    ReportAssignmentApiResponse:
+      type: "object"
+      properties:
+        data:
+          nullable: false
+          $ref: "#/components/schemas/ReportAssignmentPublic"
+      required:
+        - "data"
+      description: "ReportAssignmentApiResponse (Interface)"
+    ReportAssignmentsListApiResponse:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            nullable: false
+            $ref: "#/components/schemas/ReportAssignmentPublic"
+      required:
+        - "data"
+      description: "ReportAssignmentsListApiResponse (Interface)"
     Credential:
       type: "object"
       properties:
@@ -722,6 +1518,11 @@ components:
           items:
             $ref: "#/components/schemas/Report"
             example: null
+        workTeams:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/WorkTeam"
+            example: null
       description: "Dependency (Model)"
     Report:
       type: "object"
@@ -740,7 +1541,36 @@ components:
           items:
             $ref: "#/components/schemas/ReportEvidence"
             example: null
+        statusHistory:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ReportStatusHistory"
+            example: null
+        assignments:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ReportAssignment"
+            example: null
+        currentAssignment:
+          $ref: "#/components/schemas/ReportAssignment"
+          example: null
       description: "Report (Model)"
+    ReportAssignment:
+      type: "object"
+      properties:
+        report:
+          $ref: "#/components/schemas/Report"
+          example: null
+        workTeam:
+          $ref: "#/components/schemas/WorkTeam"
+          example: null
+        assignedBy:
+          $ref: "#/components/schemas/User"
+          example: null
+        unassignedBy:
+          $ref: "#/components/schemas/User"
+          example: null
+      description: "ReportAssignment (Model)"
     ReportCategory:
       type: "object"
       properties:
@@ -753,6 +1583,56 @@ components:
             $ref: "#/components/schemas/Report"
             example: null
       description: "ReportCategory (Model)"
+    ReportDuplicateReview:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+          example: 269
+        reportId:
+          type: "number"
+          example: 146
+        candidateReportId:
+          type: "number"
+          example: 540
+        status:
+          type: "string"
+          example: "Lorem Ipsum"
+        distanceMeters:
+          type: "string"
+          example: "Lorem Ipsum"
+        detectedAt:
+          type: "string"
+          example: "2021-03-23T16:13:08.489+01:00"
+          format: "date-time"
+        reviewedByUserId:
+          type: "number"
+          example: 607
+        reviewedAt:
+          type: "string"
+          example: "2021-03-23T16:13:08.489+01:00"
+          format: "date-time"
+        note:
+          type: "string"
+          example: "Lorem Ipsum"
+        createdAt:
+          type: "string"
+          example: "2021-03-23T16:13:08.489+01:00"
+          format: "date-time"
+        updatedAt:
+          type: "string"
+          example: "2021-03-23T16:13:08.489+01:00"
+          format: "date-time"
+        report:
+          $ref: "#/components/schemas/Report"
+          example: null
+        candidateReport:
+          $ref: "#/components/schemas/Report"
+          example: null
+        reviewedBy:
+          $ref: "#/components/schemas/User"
+          example: null
+      description: "ReportDuplicateReview (Model)"
     ReportEvidence:
       type: "object"
       properties:
@@ -760,6 +1640,16 @@ components:
           $ref: "#/components/schemas/Report"
           example: null
       description: "ReportEvidence (Model)"
+    ReportStatusHistory:
+      type: "object"
+      properties:
+        report:
+          $ref: "#/components/schemas/Report"
+          example: null
+        changedBy:
+          $ref: "#/components/schemas/User"
+          example: null
+      description: "ReportStatusHistory (Model)"
     Role:
       type: "object"
       properties:
@@ -786,7 +1676,37 @@ components:
           items:
             $ref: "#/components/schemas/Report"
             example: null
+        reportStatusChanges:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ReportStatusHistory"
+            example: null
+        ledWorkTeams:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/WorkTeam"
+            example: null
       description: "User (Model)"
+    WorkTeam:
+      type: "object"
+      properties:
+        dependency:
+          $ref: "#/components/schemas/Dependency"
+          example: null
+        leader:
+          $ref: "#/components/schemas/User"
+          example: null
+        members:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/User"
+            example: null
+        assignments:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ReportAssignment"
+            example: null
+      description: "WorkTeam (Model)"
     createDependencyValidator:
       type: "object"
       properties:
@@ -814,7 +1734,7 @@ components:
       properties:
         page:
           type: "number"
-          example: 886
+          example: 766
         perPage:
           type: "number"
           example: 1
@@ -828,7 +1748,7 @@ components:
           type: "boolean"
           example: true
       example:
-        page: 886
+        page: 766
         perPage: 1
         search: "Lorem Ipsum"
         isActive: true
@@ -903,7 +1823,7 @@ components:
           maximum: 180
         precisionUbicacion:
           type: "number"
-          example: 696
+          example: 47
           maximum: 100000
         origenUbicacion:
           type: "string"
@@ -911,16 +1831,16 @@ components:
           maxLength: 20
         foto:
           type: "number"
-          example: 7
+          example: 377
       example:
         categoria: "Lorem Ipsum"
         descripcion: "Lorem Ipsum"
         direccion: "Lorem Ipsum"
         latitud: -90
         longitud: -180
-        precisionUbicacion: 696
+        precisionUbicacion: 47
         origenUbicacion: "Lorem Ipsum"
-        foto: 7
+        foto: 377
       description: "createReportValidator (Validator)"
       required:
         - "categoria"
@@ -928,15 +1848,105 @@ components:
         - "longitud"
         - "origenUbicacion"
         - "foto"
+    listReportsValidator:
+      type: "object"
+      properties:
+        page:
+          type: "number"
+          example: 246
+        perPage:
+          type: "number"
+          example: 1
+          minimum: 1
+          maximum: 100
+        search:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 150
+        status:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 20
+        categoryId:
+          type: "number"
+          example: 482
+        dependencyId:
+          type: "number"
+          example: 94
+        userId:
+          type: "number"
+          example: 182
+        from:
+          type: "string"
+          example: "Lorem Ipsum"
+          pattern: "/^\\d{4}-\\d{2}-\\d{2}$/"
+        to:
+          type: "string"
+          example: "Lorem Ipsum"
+          pattern: "/^\\d{4}-\\d{2}-\\d{2}$/"
+      example:
+        page: 246
+        perPage: 1
+        search: "Lorem Ipsum"
+        status: "Lorem Ipsum"
+        categoryId: 482
+        dependencyId: 94
+        userId: 182
+        from: "Lorem Ipsum"
+        to: "Lorem Ipsum"
+      description: "listReportsValidator (Validator)"
+    reviewReportDuplicateValidator:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+          example: 396
+          enum:
+            - "confirmed"
+            - "dismissed"
+        note:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 3
+          maxLength: 1000
+      example:
+        status: 396
+        note: "Lorem Ipsum"
+      description: "reviewReportDuplicateValidator (Validator)"
+      required:
+        - "status"
+    updateReportStatusValidator:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 20
+        expectedVersion:
+          type: "number"
+          example: 629
+        note:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 3
+          maxLength: 1000
+      example:
+        status: "Lorem Ipsum"
+        expectedVersion: 629
+        note: "Lorem Ipsum"
+      description: "updateReportStatusValidator (Validator)"
+      required:
+        - "status"
+        - "expectedVersion"
     createUserValidator:
       type: "object"
       properties:
         dependencyId:
           type: "number"
-          example: 124
+          example: 566
         roleId:
           type: "number"
-          example: 241
+          example: 268
         firstName:
           type: "string"
           example: "Lorem Ipsum"
@@ -973,8 +1983,8 @@ components:
           minLength: 8
           maxLength: 32
       example:
-        dependencyId: 124
-        roleId: 241
+        dependencyId: 566
+        roleId: 268
         firstName: "Lorem Ipsum"
         lastName: "Lorem Ipsum"
         email: "Lorem Ipsum"
@@ -997,7 +2007,7 @@ components:
       properties:
         page:
           type: "number"
-          example: 95
+          example: 369
         perPage:
           type: "number"
           example: 1
@@ -1009,19 +2019,19 @@ components:
           maxLength: 150
         roleId:
           type: "number"
-          example: 700
+          example: 674
         dependencyId:
           type: "number"
-          example: 682
+          example: 749
         isActive:
           type: "boolean"
           example: true
       example:
-        page: 95
+        page: 369
         perPage: 1
         search: "Lorem Ipsum"
-        roleId: 700
-        dependencyId: 682
+        roleId: 674
+        dependencyId: 749
         isActive: true
       description: "listUsersValidator (Validator)"
     loginValidator:
@@ -1077,10 +2087,10 @@ components:
       properties:
         dependencyId:
           type: "number"
-          example: 424
+          example: 808
         roleId:
           type: "number"
-          example: 704
+          example: 397
         firstName:
           type: "string"
           example: "Lorem Ipsum"
@@ -1104,14 +2114,178 @@ components:
           example: "Lorem Ipsum"
           maxLength: 100
       example:
-        dependencyId: 424
-        roleId: 704
+        dependencyId: 808
+        roleId: 397
         firstName: "Lorem Ipsum"
         lastName: "Lorem Ipsum"
         email: "Lorem Ipsum"
         phoneNumber: "Lorem Ipsum"
         jobTitle: "Lorem Ipsum"
       description: "updateUserValidator (Validator)"
+    assignReportValidator:
+      type: "object"
+      properties:
+        workTeamId:
+          type: "number"
+          example: 325
+        expectedVersion:
+          type: "number"
+          example: 317
+        priority:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 20
+        dueAt:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 40
+        observations:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 3
+          maxLength: 2000
+      example:
+        workTeamId: 325
+        expectedVersion: 317
+        priority: "Lorem Ipsum"
+        dueAt: "Lorem Ipsum"
+        observations: "Lorem Ipsum"
+      description: "assignReportValidator (Validator)"
+      required:
+        - "workTeamId"
+        - "expectedVersion"
+        - "priority"
+    createWorkTeamValidator:
+      type: "object"
+      properties:
+        dependencyId:
+          type: "number"
+          example: 628
+        name:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 2
+          maxLength: 150
+        description:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 1000
+        leaderUserId:
+          type: "number"
+          example: 959
+        memberUserIds:
+          type: "array"
+          items:
+            type: "number"
+            example: 1
+            minimum: 1
+            maximum: 100
+      example:
+        dependencyId: 628
+        name: "Lorem Ipsum"
+        description: "Lorem Ipsum"
+        leaderUserId: 959
+        memberUserIds:
+          - 1
+      description: "createWorkTeamValidator (Validator)"
+      required:
+        - "dependencyId"
+        - "name"
+        - "leaderUserId"
+        - "memberUserIds"
+    listWorkTeamsValidator:
+      type: "object"
+      properties:
+        page:
+          type: "number"
+          example: 39
+        perPage:
+          type: "number"
+          example: 1
+          minimum: 1
+          maximum: 100
+        search:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 150
+        dependencyId:
+          type: "number"
+          example: 409
+        isActive:
+          type: "boolean"
+          example: true
+      example:
+        page: 39
+        perPage: 1
+        search: "Lorem Ipsum"
+        dependencyId: 409
+        isActive: true
+      description: "listWorkTeamsValidator (Validator)"
+    unassignReportValidator:
+      type: "object"
+      properties:
+        expectedVersion:
+          type: "number"
+          example: 860
+        note:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 3
+          maxLength: 2000
+      example:
+        expectedVersion: 860
+        note: "Lorem Ipsum"
+      description: "unassignReportValidator (Validator)"
+      required:
+        - "expectedVersion"
+        - "note"
+    updateWorkTeamMembersValidator:
+      type: "object"
+      properties:
+        memberUserIds:
+          type: "array"
+          items:
+            type: "number"
+            example: 1
+            minimum: 1
+            maximum: 100
+      example:
+        memberUserIds:
+          - 1
+      description: "updateWorkTeamMembersValidator (Validator)"
+      required:
+        - "memberUserIds"
+    updateWorkTeamStatusValidator:
+      type: "object"
+      properties:
+        isActive:
+          type: "boolean"
+          example: true
+      example:
+        isActive: true
+      description: "updateWorkTeamStatusValidator (Validator)"
+      required:
+        - "isActive"
+    updateWorkTeamValidator:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          example: "Lorem Ipsum"
+          minLength: 2
+          maxLength: 150
+        description:
+          type: "string"
+          example: "Lorem Ipsum"
+          maxLength: 1000
+        leaderUserId:
+          type: "number"
+          example: 230
+      example:
+        name: "Lorem Ipsum"
+        description: "Lorem Ipsum"
+        leaderUserId: 230
+      description: "updateWorkTeamValidator (Validator)"
 paths:
   /api/v1/auth/login:
     post:
@@ -1197,9 +2371,9 @@ paths:
                 $ref: "#/components/schemas/ProfileApiResponse"
               example:
                 data:
-                  id: 511
-                  dependencyId: 520
-                  roleId: 644
+                  id: 802
+                  dependencyId: 160
+                  roleId: 477
                   firstName: "Lorem Ipsum"
                   lastName: "Lorem Ipsum"
                   email: "Lorem Ipsum"
@@ -1288,19 +2462,47 @@ paths:
               schema:
                 $ref: "#/components/schemas/ReportPublic"
               example:
-                id: 539
+                id: 600
+                version: 971
                 folio: "Lorem Ipsum"
+                categoriaId: 835
+                categoriaCodigo: "Lorem Ipsum"
                 categoria: "Lorem Ipsum"
                 descripcion: "Lorem Ipsum"
                 direccion: "Lorem Ipsum"
-                latitud: 889
-                longitud: 507
-                precisionUbicacion: 420
+                latitud: 333
+                longitud: 524
+                precisionUbicacion: 221
                 origenUbicacion: "Lorem Ipsum"
+                estadoCodigo: "Lorem Ipsum"
                 estado: "Lorem Ipsum"
                 fotoUrl: "Lorem Ipsum"
+                fotoUrlExpira: true
                 estadoEvidencia: "Lorem Ipsum"
+                dependencia:
+                  id: 315
+                  nombre: "Lorem Ipsum"
+                asignacionActual:
+                  id: 283
+                  prioridad: "Lorem Ipsum"
+                  observaciones: "Lorem Ipsum"
+                  asignadoEn: "Lorem Ipsum"
+                  fechaLimite: "Lorem Ipsum"
+                ciudadano:
+                  id: 183
+                  nombre: "Lorem Ipsum"
+                  email: "Lorem Ipsum"
+                historial:
+                  - id: 324
+                    estadoAnteriorCodigo: "Lorem Ipsum"
+                    estadoAnterior: "Lorem Ipsum"
+                    estadoNuevoCodigo: "Lorem Ipsum"
+                    estadoNuevo: "Lorem Ipsum"
+                    origen: "Lorem Ipsum"
+                    observacion: "Lorem Ipsum"
+                    creadoEn: "Lorem Ipsum"
                 creadoEn: "Lorem Ipsum"
+                actualizadoEn: "Lorem Ipsum"
           description: "Returns **201** (Created) as **application/json**"
         401:
           content:
@@ -1324,6 +2526,16 @@ paths:
                   code: "Lorem Ipsum"
                   message: "Lorem Ipsum"
           description: "Returns **422** (Unprocessable Entity) as **application/json**"
+        503:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **503** (Service Unavailable) as **application/json**"
       security:
         - BearerAuth:
             - "access"
@@ -1370,6 +2582,1031 @@ paths:
                 - "origenUbicacion"
                 - "foto"
         required: true
+    get:
+      summary: "Consultar mis reportes (mine)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/report_queries_controller.ts_ - **mine**"
+      operationId: "listMyReports"
+      parameters:
+        - in: "query"
+          name: "page"
+          description: "Número de página"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "perPage"
+          description: "Registros por página, máximo 100"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "search"
+          description: "Folio, descripción o dirección"
+          schema:
+            example: ""
+            type: "string"
+          required: false
+        - in: "query"
+          name: "status"
+          description: "pending, in_progress o resolved"
+          schema:
+            example: ""
+            type: "string"
+          required: false
+        - in: "query"
+          name: "categoryId"
+          description: "Identificador de categoría"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "from"
+          description: "Fecha inicial YYYY-MM-DD"
+          schema:
+            example: ""
+            type: "string"
+          required: false
+        - in: "query"
+          name: "to"
+          description: "Fecha final YYYY-MM-DD"
+          schema:
+            example: ""
+            type: "string"
+          required: false
+      tags:
+        - "REPORTS"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportsListApiResponse"
+              example:
+                data:
+                  - id: 600
+                    version: 971
+                    folio: "Lorem Ipsum"
+                    categoriaId: 835
+                    categoriaCodigo: "Lorem Ipsum"
+                    categoria: "Lorem Ipsum"
+                    descripcion: "Lorem Ipsum"
+                    direccion: "Lorem Ipsum"
+                    latitud: 333
+                    longitud: 524
+                    precisionUbicacion: 221
+                    origenUbicacion: "Lorem Ipsum"
+                    estadoCodigo: "Lorem Ipsum"
+                    estado: "Lorem Ipsum"
+                    fotoUrl: "Lorem Ipsum"
+                    fotoUrlExpira: true
+                    estadoEvidencia: "Lorem Ipsum"
+                    creadoEn: "Lorem Ipsum"
+                    actualizadoEn: "Lorem Ipsum"
+                meta:
+                  total: 391
+                  perPage: 666
+                  currentPage: 81
+                  lastPage: 628
+                  firstPage: 575
+                  firstPageUrl: "Lorem Ipsum"
+                  lastPageUrl: "Lorem Ipsum"
+                  nextPageUrl: "Lorem Ipsum"
+                  previousPageUrl: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          description: "Returns **403** (Forbidden)"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/report-categories:
+    get:
+      summary: "Consultar categorías disponibles para reportar (index)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/report_categories_controller.ts_ - **index**"
+      operationId: "listReportCategories"
+      parameters: []
+      tags:
+        - "REPORT-CATEGORIES"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportCategoriesListApiResponse"
+              example:
+                data:
+                  - id: 625
+                    codigo: "Lorem Ipsum"
+                    nombre: "Lorem Ipsum"
+                    descripcion: "Lorem Ipsum"
+                    requiereDescripcion: true
+                    dependenciaId: 418
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/reports/{id}:
+    get:
+      summary: "Consultar el detalle de uno de mis reportes (showMine)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/report_queries_controller.ts_ - **showMine**"
+      operationId: "getMyReport"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador del reporte"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "REPORTS"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportDetailApiResponse"
+              example:
+                id: 22
+                version: 794
+                folio: "Lorem Ipsum"
+                categoriaId: 457
+                categoriaCodigo: "Lorem Ipsum"
+                categoria: "Lorem Ipsum"
+                descripcion: "Lorem Ipsum"
+                direccion: "Lorem Ipsum"
+                latitud: 575
+                longitud: 497
+                precisionUbicacion: 193
+                origenUbicacion: "Lorem Ipsum"
+                estadoCodigo: "Lorem Ipsum"
+                estado: "Lorem Ipsum"
+                fotoUrl: "Lorem Ipsum"
+                fotoUrlExpira: true
+                estadoEvidencia: "Lorem Ipsum"
+                dependencia:
+                  id: 315
+                  nombre: "Lorem Ipsum"
+                asignacionActual:
+                  id: 283
+                  prioridad: "Lorem Ipsum"
+                  observaciones: "Lorem Ipsum"
+                  asignadoEn: "Lorem Ipsum"
+                  fechaLimite: "Lorem Ipsum"
+                ciudadano:
+                  id: 183
+                  nombre: "Lorem Ipsum"
+                  email: "Lorem Ipsum"
+                historial:
+                  - id: 324
+                    estadoAnteriorCodigo: "Lorem Ipsum"
+                    estadoAnterior: "Lorem Ipsum"
+                    estadoNuevoCodigo: "Lorem Ipsum"
+                    estadoNuevo: "Lorem Ipsum"
+                    origen: "Lorem Ipsum"
+                    observacion: "Lorem Ipsum"
+                    creadoEn: "Lorem Ipsum"
+                creadoEn: "Lorem Ipsum"
+                actualizadoEn: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          description: "Returns **403** (Forbidden)"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/admin/reports:
+    get:
+      summary: "Listar reportes para seguimiento administrativo (index)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/report_queries_controller.ts_ - **index**"
+      operationId: "listAdminReports"
+      parameters:
+        - in: "query"
+          name: "page"
+          description: "Número de página"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "perPage"
+          description: "Registros por página, máximo 100"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "search"
+          description: "Folio, descripción o dirección"
+          schema:
+            example: ""
+            type: "string"
+          required: false
+        - in: "query"
+          name: "status"
+          description: "pending, in_progress o resolved"
+          schema:
+            example: ""
+            type: "string"
+          required: false
+        - in: "query"
+          name: "categoryId"
+          description: "Identificador de categoría"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "dependencyId"
+          description: "Identificador de dependencia"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "userId"
+          description: "Identificador del ciudadano"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "from"
+          description: "Fecha inicial YYYY-MM-DD"
+          schema:
+            example: ""
+            type: "string"
+          required: false
+        - in: "query"
+          name: "to"
+          description: "Fecha final YYYY-MM-DD"
+          schema:
+            example: ""
+            type: "string"
+          required: false
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportsListApiResponse"
+              example:
+                data:
+                  - id: 600
+                    version: 971
+                    folio: "Lorem Ipsum"
+                    categoriaId: 835
+                    categoriaCodigo: "Lorem Ipsum"
+                    categoria: "Lorem Ipsum"
+                    descripcion: "Lorem Ipsum"
+                    direccion: "Lorem Ipsum"
+                    latitud: 333
+                    longitud: 524
+                    precisionUbicacion: 221
+                    origenUbicacion: "Lorem Ipsum"
+                    estadoCodigo: "Lorem Ipsum"
+                    estado: "Lorem Ipsum"
+                    fotoUrl: "Lorem Ipsum"
+                    fotoUrlExpira: true
+                    estadoEvidencia: "Lorem Ipsum"
+                    creadoEn: "Lorem Ipsum"
+                    actualizadoEn: "Lorem Ipsum"
+                meta:
+                  total: 391
+                  perPage: 666
+                  currentPage: 81
+                  lastPage: 628
+                  firstPage: 575
+                  firstPageUrl: "Lorem Ipsum"
+                  lastPageUrl: "Lorem Ipsum"
+                  nextPageUrl: "Lorem Ipsum"
+                  previousPageUrl: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/admin/reports/{id}:
+    get:
+      summary: "Consultar un reporte para seguimiento administrativo (show)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/report_queries_controller.ts_ - **show**"
+      operationId: "getAdminReport"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador del reporte"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportDetailApiResponse"
+              example:
+                id: 22
+                version: 794
+                folio: "Lorem Ipsum"
+                categoriaId: 457
+                categoriaCodigo: "Lorem Ipsum"
+                categoria: "Lorem Ipsum"
+                descripcion: "Lorem Ipsum"
+                direccion: "Lorem Ipsum"
+                latitud: 575
+                longitud: 497
+                precisionUbicacion: 193
+                origenUbicacion: "Lorem Ipsum"
+                estadoCodigo: "Lorem Ipsum"
+                estado: "Lorem Ipsum"
+                fotoUrl: "Lorem Ipsum"
+                fotoUrlExpira: true
+                estadoEvidencia: "Lorem Ipsum"
+                dependencia:
+                  id: 315
+                  nombre: "Lorem Ipsum"
+                asignacionActual:
+                  id: 283
+                  prioridad: "Lorem Ipsum"
+                  observaciones: "Lorem Ipsum"
+                  asignadoEn: "Lorem Ipsum"
+                  fechaLimite: "Lorem Ipsum"
+                ciudadano:
+                  id: 183
+                  nombre: "Lorem Ipsum"
+                  email: "Lorem Ipsum"
+                historial:
+                  - id: 324
+                    estadoAnteriorCodigo: "Lorem Ipsum"
+                    estadoAnterior: "Lorem Ipsum"
+                    estadoNuevoCodigo: "Lorem Ipsum"
+                    estadoNuevo: "Lorem Ipsum"
+                    origen: "Lorem Ipsum"
+                    observacion: "Lorem Ipsum"
+                    creadoEn: "Lorem Ipsum"
+                creadoEn: "Lorem Ipsum"
+                actualizadoEn: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/admin/reports/{id}/possible-duplicates:
+    get:
+      summary: "Consultar posibles reportes duplicados (possibleDuplicates)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/report_queries_controller.ts_ - **possibleDuplicates**"
+      operationId: "listPossibleReportDuplicates"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador del reporte"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportDuplicateReviewsApiResponse"
+              example:
+                data:
+                  - id: 65
+                    estado: "Lorem Ipsum"
+                    distanciaMetros: 872
+                    detectadoEn: "Lorem Ipsum"
+                    revisadoEn: "Lorem Ipsum"
+                    observacion: "Lorem Ipsum"
+                reglas:
+                  distanciaMaximaMetros: 388
+                  ventanaMaximaHoras: 962
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/admin/reports/{id}/possible-duplicates/{reviewId}:
+    patch:
+      summary: "Resolver una alerta de posible duplicado (reviewPossibleDuplicate)"
+      description: "Permite confirmar que dos reportes representan la misma incidencia o descartar la coincidencia. Ningún reporte se elimina automáticamente.\n\n _app/controllers/report_queries_controller.ts_ - **reviewPossibleDuplicate**"
+      operationId: "reviewPossibleReportDuplicate"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador del reporte consultado"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+        - in: "path"
+          name: "reviewId"
+          description: "Identificador de la coincidencia"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportDuplicateReviewsApiResponse"
+              example:
+                data:
+                  - id: 65
+                    estado: "Lorem Ipsum"
+                    distanciaMetros: 872
+                    detectadoEn: "Lorem Ipsum"
+                    revisadoEn: "Lorem Ipsum"
+                    observacion: "Lorem Ipsum"
+                reglas:
+                  distanciaMaximaMetros: 388
+                  ventanaMaximaHoras: 962
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewReportDuplicateRequest"
+            example:
+              status: "Lorem Ipsum"
+              note: "Lorem Ipsum"
+        required: true
+  /api/v1/admin/reports/{id}/status:
+    patch:
+      summary: "Cambiar controladamente el estado de un reporte (updateStatus)"
+      description: "Permite pending a in_progress, in_progress a pending o resolved, y resolved a in_progress. Retroceder o reabrir exige observación.\n\n _app/controllers/report_queries_controller.ts_ - **updateStatus**"
+      operationId: "updateReportStatus"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "Identificador del reporte"
+          schema:
+            example: ""
+            type: "number"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportDetailApiResponse"
+              example:
+                id: 22
+                version: 794
+                folio: "Lorem Ipsum"
+                categoriaId: 457
+                categoriaCodigo: "Lorem Ipsum"
+                categoria: "Lorem Ipsum"
+                descripcion: "Lorem Ipsum"
+                direccion: "Lorem Ipsum"
+                latitud: 575
+                longitud: 497
+                precisionUbicacion: 193
+                origenUbicacion: "Lorem Ipsum"
+                estadoCodigo: "Lorem Ipsum"
+                estado: "Lorem Ipsum"
+                fotoUrl: "Lorem Ipsum"
+                fotoUrlExpira: true
+                estadoEvidencia: "Lorem Ipsum"
+                dependencia:
+                  id: 315
+                  nombre: "Lorem Ipsum"
+                asignacionActual:
+                  id: 283
+                  prioridad: "Lorem Ipsum"
+                  observaciones: "Lorem Ipsum"
+                  asignadoEn: "Lorem Ipsum"
+                  fechaLimite: "Lorem Ipsum"
+                ciudadano:
+                  id: 183
+                  nombre: "Lorem Ipsum"
+                  email: "Lorem Ipsum"
+                historial:
+                  - id: 324
+                    estadoAnteriorCodigo: "Lorem Ipsum"
+                    estadoAnterior: "Lorem Ipsum"
+                    estadoNuevoCodigo: "Lorem Ipsum"
+                    estadoNuevo: "Lorem Ipsum"
+                    origen: "Lorem Ipsum"
+                    observacion: "Lorem Ipsum"
+                    creadoEn: "Lorem Ipsum"
+                creadoEn: "Lorem Ipsum"
+                actualizadoEn: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **404** (Not Found) as **application/json**"
+        409:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **409** (Conflict) as **application/json**"
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **422** (Unprocessable Entity) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateReportStatusRequest"
+            example:
+              status: "Lorem Ipsum"
+              expectedVersion: 254
+              note: "Lorem Ipsum"
+        required: true
+  /api/v1/admin/reports/{id}/assignments:
+    post:
+      summary: " (assignReport)"
+      description: "\n\n _app/controllers/work_teams_controller.ts_ - **assignReport**"
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json: {}
+        required: true
+    get:
+      summary: " (assignmentHistory)"
+      description: "\n\n _app/controllers/work_teams_controller.ts_ - **assignmentHistory**"
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/admin/reports/{id}/assignment:
+    delete:
+      summary: " (unassignReport)"
+      description: "\n\n _app/controllers/work_teams_controller.ts_ - **unassignReport**"
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+  /api/v1/admin/teams:
+    get:
+      summary: "Listar equipos de trabajo (index)"
+      description: "Returns **200** (OK) as **application/json**\n\n _app/controllers/work_teams_controller.ts_ - **index**"
+      operationId: "listWorkTeams"
+      parameters:
+        - in: "query"
+          name: "page"
+          description: "Número de página"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "perPage"
+          description: "Registros por página"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "search"
+          description: "Nombre o descripción"
+          schema:
+            example: ""
+            type: "string"
+          required: false
+        - in: "query"
+          name: "dependencyId"
+          description: "Dependencia"
+          schema:
+            example: ""
+            type: "number"
+          required: false
+        - in: "query"
+          name: "isActive"
+          description: "Estado del equipo"
+          schema:
+            example: ""
+            type: "boolean"
+          required: false
+      tags:
+        - "ADMIN"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkTeamsListApiResponse"
+              example:
+                data:
+                  - id: 892
+                    nombre: "Lorem Ipsum"
+                    descripcion: "Lorem Ipsum"
+                    activo: true
+                    creadoEn: "Lorem Ipsum"
+                    actualizadoEn: "Lorem Ipsum"
+                meta:
+                  total: 391
+                  perPage: 666
+                  currentPage: 81
+                  lastPage: 628
+                  firstPage: 575
+                  firstPageUrl: "Lorem Ipsum"
+                  lastPageUrl: "Lorem Ipsum"
+                  nextPageUrl: "Lorem Ipsum"
+                  previousPageUrl: "Lorem Ipsum"
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorResponse"
+              example:
+                error:
+                  code: "Lorem Ipsum"
+                  message: "Lorem Ipsum"
+          description: "Returns **403** (Forbidden) as **application/json**"
+      security:
+        - BearerAuth:
+            - "access"
+    post:
+      summary: "Create admin (store)"
+      description: "\n\n _app/controllers/work_teams_controller.ts_ - **store**"
+      parameters: []
+      tags:
+        - "ADMIN"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json: {}
+        required: true
+  /api/v1/admin/teams/{id}:
+    get:
+      summary: "Get a single instance of admin (show)"
+      description: "\n\n _app/controllers/work_teams_controller.ts_ - **show**"
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+    patch:
+      summary: "Update admin (update)"
+      description: "\n\n _app/controllers/work_teams_controller.ts_ - **update**"
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json: {}
+        required: true
+  /api/v1/admin/teams/{id}/status:
+    patch:
+      summary: " (updateStatus)"
+      description: "\n\n _app/controllers/work_teams_controller.ts_ - **updateStatus**"
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json: {}
+        required: true
+  /api/v1/admin/teams/{id}/members:
+    put:
+      summary: " (updateMembers)"
+      description: "\n\n _app/controllers/work_teams_controller.ts_ - **updateMembers**"
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: "string"
+          required: true
+      tags:
+        - "ADMIN"
+      responses:
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
+      requestBody:
+        content:
+          application/json: {}
+        required: true
   /api/v1/admin/dependencies:
     get:
       summary: "Listar dependencias (index)"
@@ -1414,16 +3651,16 @@ paths:
                 $ref: "#/components/schemas/DependenciesListApiResponse"
               example:
                 data:
-                  - id: 632
+                  - id: 14
                     name: "Lorem Ipsum"
                     description: "Lorem Ipsum"
                     isActive: true
                 meta:
-                  total: 395
-                  perPage: 372
-                  currentPage: 858
-                  lastPage: 133
-                  firstPage: 175
+                  total: 391
+                  perPage: 666
+                  currentPage: 81
+                  lastPage: 628
+                  firstPage: 575
                   firstPageUrl: "Lorem Ipsum"
                   lastPageUrl: "Lorem Ipsum"
                   nextPageUrl: "Lorem Ipsum"
@@ -1477,7 +3714,7 @@ paths:
                 $ref: "#/components/schemas/CreateDependencyApiResponse"
               example:
                 data:
-                  id: 632
+                  id: 14
                   name: "Lorem Ipsum"
                   description: "Lorem Ipsum"
                   isActive: true
@@ -1548,7 +3785,7 @@ paths:
                 $ref: "#/components/schemas/DependencyDetailApiResponse"
               example:
                 data:
-                  id: 632
+                  id: 14
                   name: "Lorem Ipsum"
                   description: "Lorem Ipsum"
                   isActive: true
@@ -1608,7 +3845,7 @@ paths:
                 $ref: "#/components/schemas/UpdateDependencyApiResponse"
               example:
                 data:
-                  id: 632
+                  id: 14
                   name: "Lorem Ipsum"
                   description: "Lorem Ipsum"
                   isActive: true
@@ -1688,7 +3925,7 @@ paths:
                 $ref: "#/components/schemas/UpdateDependencyStatusApiResponse"
               example:
                 data:
-                  id: 632
+                  id: 14
                   name: "Lorem Ipsum"
                   description: "Lorem Ipsum"
                   isActive: true
@@ -1777,7 +4014,7 @@ paths:
                 $ref: "#/components/schemas/UpdateDependencyManagersApiResponse"
               example:
                 data:
-                  id: 632
+                  id: 14
                   name: "Lorem Ipsum"
                   description: "Lorem Ipsum"
                   isActive: true
@@ -1842,7 +4079,7 @@ paths:
               $ref: "#/components/schemas/UpdateDependencyManagersRequest"
             example:
               userIds:
-                - 650
+                - 661
         required: true
   /api/v1/admin/roles:
     get:
@@ -1860,7 +4097,7 @@ paths:
                 $ref: "#/components/schemas/RolesListApiResponse"
               example:
                 data:
-                  - id: 861
+                  - id: 766
                     name: "Lorem Ipsum"
                     slug: "Lorem Ipsum"
                     description: "Lorem Ipsum"
@@ -1948,9 +4185,9 @@ paths:
                 $ref: "#/components/schemas/UsersListApiResponse"
               example:
                 data:
-                  - id: 511
-                    dependencyId: 520
-                    roleId: 644
+                  - id: 802
+                    dependencyId: 160
+                    roleId: 477
                     firstName: "Lorem Ipsum"
                     lastName: "Lorem Ipsum"
                     email: "Lorem Ipsum"
@@ -1961,11 +4198,11 @@ paths:
                     updatedAt: "Lorem Ipsum"
                     initials: "Lorem Ipsum"
                 meta:
-                  total: 395
-                  perPage: 372
-                  currentPage: 858
-                  lastPage: 133
-                  firstPage: 175
+                  total: 391
+                  perPage: 666
+                  currentPage: 81
+                  lastPage: 628
+                  firstPage: 575
                   firstPageUrl: "Lorem Ipsum"
                   lastPageUrl: "Lorem Ipsum"
                   nextPageUrl: "Lorem Ipsum"
@@ -2019,9 +4256,9 @@ paths:
                 $ref: "#/components/schemas/CreateUserApiResponse"
               example:
                 data:
-                  id: 511
-                  dependencyId: 520
-                  roleId: 644
+                  id: 802
+                  dependencyId: 160
+                  roleId: 477
                   firstName: "Lorem Ipsum"
                   lastName: "Lorem Ipsum"
                   email: "Lorem Ipsum"
@@ -2071,8 +4308,8 @@ paths:
             schema:
               $ref: "#/components/schemas/CreateUserRequest"
             example:
-              dependencyId: 953
-              roleId: 515
+              dependencyId: 747
+              roleId: 449
               firstName: "Lorem Ipsum"
               lastName: "Lorem Ipsum"
               email: "Lorem Ipsum"
@@ -2104,9 +4341,9 @@ paths:
                 $ref: "#/components/schemas/UserDetailApiResponse"
               example:
                 data:
-                  id: 511
-                  dependencyId: 520
-                  roleId: 644
+                  id: 802
+                  dependencyId: 160
+                  roleId: 477
                   firstName: "Lorem Ipsum"
                   lastName: "Lorem Ipsum"
                   email: "Lorem Ipsum"
@@ -2172,9 +4409,9 @@ paths:
                 $ref: "#/components/schemas/UpdateUserApiResponse"
               example:
                 data:
-                  id: 511
-                  dependencyId: 520
-                  roleId: 644
+                  id: 802
+                  dependencyId: 160
+                  roleId: 477
                   firstName: "Lorem Ipsum"
                   lastName: "Lorem Ipsum"
                   email: "Lorem Ipsum"
@@ -2244,8 +4481,8 @@ paths:
             schema:
               $ref: "#/components/schemas/UpdateUserRequest"
             example:
-              dependencyId: 661
-              roleId: 674
+              dependencyId: 170
+              roleId: 835
               firstName: "Lorem Ipsum"
               lastName: "Lorem Ipsum"
               email: "Lorem Ipsum"
@@ -2275,9 +4512,9 @@ paths:
                 $ref: "#/components/schemas/UpdateUserStatusApiResponse"
               example:
                 data:
-                  id: 511
-                  dependencyId: 520
-                  roleId: 644
+                  id: 802
+                  dependencyId: 160
+                  roleId: 477
                   firstName: "Lorem Ipsum"
                   lastName: "Lorem Ipsum"
                   email: "Lorem Ipsum"
@@ -2431,7 +4668,9 @@ tags:
     description: "Everything related to ACCOUNT"
   - name: "REPORTS"
     description: "Everything related to REPORTS"
+  - name: "REPORT-CATEGORIES"
+    description: "Everything related to REPORT-CATEGORIES"
   - name: "ADMIN"
     description: "Everything related to ADMIN"
 servers:
-  - url: "http://localhost:3333"
+  - url: "http://192.168.100.228:3333"

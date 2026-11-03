@@ -7,6 +7,7 @@ import db from '@adonisjs/lucid/services/db'
 import Role from '#models/role'
 import User from '#models/user'
 import Credential from '#models/credential'
+import WorkTeam from '#models/work_team'
 import UserTransformer from '#transformers/user_transformer'
 import {
   assertActiveDependency,
@@ -256,6 +257,27 @@ export default class AdminUsersController {
         status: 422,
         code: 'E_SELF_DEACTIVATION',
       })
+    }
+
+    if (!payload.isActive) {
+      const activeTeam = await WorkTeam.query()
+        .where('is_active', true)
+        .where((teamQuery) => {
+          teamQuery
+            .where('leader_user_id', user.id)
+            .orWhereHas('members', (memberQuery) => memberQuery.where('users.id', user.id))
+        })
+        .first()
+
+      if (activeTeam) {
+        throw new Exception(
+          'Retira al usuario de sus equipos activos antes de desactivar la cuenta',
+          {
+            status: 409,
+            code: 'E_USER_HAS_ACTIVE_TEAM',
+          }
+        )
+      }
     }
 
     await db.transaction(async (trx) => {
